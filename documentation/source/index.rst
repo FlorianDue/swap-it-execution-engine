@@ -130,6 +130,7 @@ of the current state of the execution.
    ExecutionEngineLogic
    Dispatcher
    ControlInterface
+   swap-it-architecture
    Glossary
    Contact
    related_projects
