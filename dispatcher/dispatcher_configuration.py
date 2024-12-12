@@ -19,7 +19,6 @@ class DispatcherConfig:
         self.dispatcher_object = DispatcherInterface()
         self.filepath = filepath
         self.dashboard_host_address = dashboard_host_address
-        print(self.filepath)
         self.scheduler = Scheduler(self.filepath,dashboard_host_address=self.dashboard_host_address) if self.dashboard_host_address else Scheduler(self.filepath)
         self.structs = []
         self.config_dispatcher()

@@ -34,6 +34,7 @@ class ExecutionClient:
         self.docker = None
         self.iteration_time = iteration_time
         self.log_info = log_info
+        self.timeout = None
         self.service_execution_states = [
             "ReadyForExecution",
             "ExecutionInProgess",
@@ -43,17 +44,19 @@ class ExecutionClient:
     async def initiate_service_execution(self, service_browse_name, tar_server_url, inp_args, task_uuid, service_uuid, out_var, device_registry_url, assignment_agent_url):
         await self.server.data_object.write_state_variable(task_uuid, self.service_execution_states[1])
         if(tar_server_url == "None"):
-            agent = await AssignAgent(self.docker).allocate_job_to_agent(service_browse_name, inp_args, device_registry_url, assignment_agent_url, self.custom_server_types)
-            await self.execute_service(agent, service_browse_name, service_uuid, task_uuid, out_var, inp_args)
-        else:
-            await self.execute_service(tar_server_url, service_browse_name, service_uuid, task_uuid, out_var, inp_args)
+            tar_server_url = await AssignAgent(self.docker, self.timeout).allocate_job_to_agent(service_browse_name, inp_args, device_registry_url, assignment_agent_url, self.custom_server_types)
+        if(tar_server_url == None):
+            while(tar_server_url == None):
+                tar_server_url = await AssignAgent(self.docker, self.timeout).allocate_job_to_agent(service_browse_name, inp_args, device_registry_url, assignment_agent_url, self.custom_server_types)
+                await asyncio.sleep(0.05)
+        await self.execute_service(tar_server_url, service_browse_name, service_uuid, task_uuid, out_var, inp_args)
         await self.server.data_object.write_state_variable(task_uuid, self.service_execution_states[2])
         self.service_res.transmit_service_execution_finished(service_uuid, task_uuid, self.service_execution_list)
 
     async def execute_service(self, tar_server_url, service_browse_name, service_uuid, task_uuid, dlo_service_output, dlo_service_input):
         if self.log_info:
             print("[", datetime.now(), "] client connects to server: ", tar_server_url, " to execute service ", service_browse_name)
-        async with Client(url=tar_server_url) as client:
+        async with Client(url=tar_server_url, timeout = self.timeout) as client:
             target_server = await self.target_server_list.get_target_server(tar_server_url, service_browse_name)
             queue = TargetServerQueue(self.iteration_time, client)
             service_parameter = await target_server.match_service_input(dlo_service_input, client, self.custom_server_types, service_browse_name)
@@ -102,6 +105,7 @@ class ExecutionClient:
         self.device_registry_url = inp[6]
         self.assignment_agent_url = inp[7]
         self.docker = inp[8]
+        self.timeout = inp[9]
         self.connected = True
 
     def reset_connection(self):

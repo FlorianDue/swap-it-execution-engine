@@ -9,26 +9,27 @@ import asyncio, nest_asyncio
 
 class AssignAgent:
 
-    def __init__(self, docker):
+    def __init__(self, docker, timeout):
         self.assignment_loop = asyncio.new_event_loop()
         self.docker = docker
+        self.timeout = timeout
         nest_asyncio.apply(self.assignment_loop)
 
     async def allocate_job_to_agent(self, service_browse_name, service_input_arguments, device_registry_url, assignment_agent_url, custom_data_types):
         filter_agent_method_arguments = await self.create_filter_agent_input_arguments(service_input_arguments, service_browse_name, custom_data_types)
-        async with Client(url=device_registry_url) as client:
+        async with Client(url=device_registry_url, timeout = self.timeout) as client:
             agent_list = await self.get_agents_from_the_device_registry(client, filter_agent_method_arguments)
             await client.disconnect()
             if agent_list == None:
                 return agent_list
         if(assignment_agent_url == None):
-            resource = await DefaultAssignmentAgent(device_registry_url, agent_list).find_target_resource()
+            resource = await DefaultAssignmentAgent(device_registry_url, agent_list, self.timeout).find_target_resource()
             if self.docker != None:
                 resource = self.convert_to_custom_url(resource, self.docker)
             return resource
         else:
         #external assignment agend
-            client = Client(assignment_agent_url)
+            client = Client(url=assignment_agent_url, timeout = self.timeout)
             async with client:
                 agent = await self.assign_service_to_resource(client, agent_list, device_registry_url)
                 await client.disconnect()

@@ -10,7 +10,7 @@ from execution_engine_logic.service_execution.execution_results import Execution
 
 class TargetServerInstance:
 
-    def __init__(self, url, target_server_list_browsepaths, server, iteration_time):
+    def __init__(self, url, target_server_list_browsepaths, server, iteration_time, timeout):
         self.server = server
         self.service_node = None
         self.service_idx = None
@@ -31,9 +31,10 @@ class TargetServerInstance:
         self.service_arguments = None
         self.explored = False
         self.iteration_time = iteration_time
+        self.timeout = timeout
 
     async def reveal_server_nodes(self, service_browse_name):
-        async with Client(url=self.url) as client:
+        async with Client(url=self.url, timeout = self.timeout) as client:
             build_information = client.get_node("ns=0;i=2256")
             impl = await build_information.read_value()
             stack = impl.BuildInfo.ManufacturerName

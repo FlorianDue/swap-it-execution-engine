@@ -41,8 +41,8 @@ class ExecutionEngine:
         await self.start_server(self.dispatcher.structs, DataObject(EngineOpcUaDataConverter()))
         self.dispatcher.set_callbacks(self.server_instance, self.server)
         ClientControlInterface = ControlInterface(self.server, self.server_instance, self.dispatcher.dispatcher_callbacks.service_execution_list,
-                                                  TargetServerList(self.server, self.iteration_time), self.device_registry_url, self.assignment_agent_url, self.custom_url,
-                                                  self.iteration_time, self.log_info)
+                                                  TargetServerList(self.server, self.iteration_time, self.dispatcher.timeout), self.device_registry_url, self.assignment_agent_url, self.custom_url,
+                                                  self.iteration_time, self.log_info, self.dispatcher.timeout)
         ClientControlInterface.init_default_clients(int(self.number_default_clients))
         self.dispatcher.dispatcher_callbacks.add_control_interface(ClientControlInterface)
         self.dispatcher.start_dispatcher()

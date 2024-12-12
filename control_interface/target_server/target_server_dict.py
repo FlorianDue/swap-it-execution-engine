@@ -9,7 +9,7 @@ import nest_asyncio
 
 class TargetServerList:
 
-    def __init__(self, server, iteration_time):
+    def __init__(self, server, iteration_time, timeout):
         self.server = server
         self.target_server_instances = []
         self.path_to_module_type = ["Types", "ObjectTypes", "BaseObjectType", "ModuleType"]
@@ -25,13 +25,14 @@ class TargetServerList:
         self.path_to_base_event_type = ["0:Types", "0:EventTypes", "0:BaseEventType"]
         self.swap_parent_event_type = "ServiceFinishedEventType"
         self.iteration_time = iteration_time
+        self.timeout = timeout
 
     def start_explore_server_loop(self, target_server_url, service_browse_name):
         explore_server_loop = asyncio.new_event_loop()
         explore_server_loop.run_until_complete(self.add_target_server_to_list(target_server_url, service_browse_name))
 
     async def add_target_server_to_list(self, target_server_url, service_browse_name):
-        target_server = TargetServerInstance(target_server_url, self, self.server, self.iteration_time)
+        target_server = TargetServerInstance(target_server_url, self, self.server, self.iteration_time, self.timeout)
         self.target_server_instances.append(target_server)
         await target_server.reveal_server_nodes(service_browse_name)
         for i in range(len(self.target_server_instances)):

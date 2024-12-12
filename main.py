@@ -11,7 +11,6 @@ from dispatcher.dispatcher_configuration import DispatcherConfig
 
 def main():
     optinal_arguments = dict(arg.split("=") for arg in sys.argv[3:])
-    print(optinal_arguments)
     dispatcher_object = DispatcherConfig(filepath=sys.argv[2], dashboard_host_address=optinal_arguments[
         "dashboard_host_address"] if optinal_arguments.__contains__(
         "dashboard_host_address") else None).dispatcher_object

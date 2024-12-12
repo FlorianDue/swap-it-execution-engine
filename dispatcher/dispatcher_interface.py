@@ -22,6 +22,7 @@ class DispatcherInterface:
         self.start_dispatcher = None
         self.running = None
         self.uuid = str(uuid.uuid4())
+        self.timeout = 300
 
     def set_dispatcher(self, dispatcher):
         self.dispatcher = dispatcher
