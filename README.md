@@ -1,6 +1,60 @@
+
+<div align="center">
+
 # Execution Engine
 
-## Start the ExecutionEngine
+</div>
+
+The Execution Engine is a software component for the execution of processes, which was developed as part of the 
+Fraunhofer lighthouse project SWAP-IT. Further information about the SWAP-IT software modules can be found within 
+the SWAP-IT Demonstration Scenario (https://github.com/swap-it/demo-scenario).
+
+The Execution Engine itself is an OPC UA server and can be seen as interface between a scheduler and resources on 
+a shop floor, which is able to execute scheduled processes and in this context, integrate custom Resource Assignment 
+strategies, be attached to custom schedulers and map process parameters. Figure 1 illustrates the functional blocks 
+of an Execution Engine. The Execution Engine Data Object constitutes a database that holds all parameters, specified 
+within a process description. Here, the Execution Engine Data Object receives resource parameterization from the 
+scheduler and stores them for the execution of Services. Besides, the Execution Engine Data Object receives service 
+results from the resources on the shop floor, which are then used to either update existing variables within the 
+Execution Engine Data Object, or to add new variables to it, which can later be used for a parameterization of a Service.
+
+To effectively find resources on the shop floor and assign services to them, the Execution Engine interacts with 
+a Device Registry and can integrate custom Resource Assignment strategies. To execute Services on the Shop Floor, 
+the Execution Engine has a build-in Control Interface, which features an arbitrary number of OPC UA Clients that 
+interact with the resources on the Shop Floor.
+
+Besides, the Execution Engine can integrate custom schedulers through its Dispatcher Interface. 
+Here the Execution Engine provides a set of Dispatcher Callbacks to react to scheduled Tasks and Services. 
+In addition, the Dispatcher Interface provides a callback to communicate the completion of a Service Execution 
+to the scheduler, as well as a callback to provide process data to the scheduler. These data can then be used by 
+the scheduler to e.g., evaluate constructs such as loops or conditions.
+
+As default implementation, we connect the PFDL Scheduler to the execution engine to run it in the SWAP-IT context. 
+However, the Execution Engine provides an API to connect the Execution Engine to custom dispatchers.
+
+![Components of an Execution Engine](documentation/source/images/ExecutionEngineOverview.png)
+
+
+An extensive documentation of the execution engine can be found here:
+
+https://fraunhoferiosb.github.io/swap-it-execution-engine/
+
+or build from the repository. To build the documentation, sphinx and the sphinx rtd theme are required. Both can be installed with:
+
+    sphinx sphinx-rtd-theme myst_parser rst2pdf
+
+Build the documentation:
+    
+    git clone https://github.com/FraunhoferIOSB/swap-it-execution-engine
+    cd swap-it-execution-engine
+    #html
+    sphinx-build -M html documentation/source/ documentation/build/html
+    #pdf
+    sphinx-build -b pdf documentation/source/ documentation/build/pdf/
+
+
+
+## Start an ExecutionEngine
 
 To start an Execution Engine for custom process execution, run the main.py file. However, the main Program requires a set of mandatory 
 and optional arguments that must be handed over from as program arguments:
@@ -15,7 +69,7 @@ path_to_pfdl a path to a local PFDL file that should be executed with the Execut
 
 Example configurations could be:
 - opc.tcp://localhost:4840
-- ./PFDL_Examples/advanced.pdfl
+- ./PFDL_Examples/advanced.pfdl
 
 
 ### Optional Arguments
@@ -34,11 +88,11 @@ a key and a value, separated by an equals. A potential configuration could be:
 
 The main.py file can be started from a terminal with at least both mandatory program arguments set:
 
-    python3 main.py "opc.tcp://localhost:4840" "./PFDL_Examples/advanced.pdfl"
+    python3 main.py "opc.tcp://localhost:4840" "./PFDL_Examples/advanced.pfdl"
 
 In case that some or all optional arguments should be deployed, the command would look like:
 
-    python3 main.py "opc.tcp://localhost:4840" "./PFDL_Examples/advanced.pdfl" "dashboard_host_address"="http://localhost:8080" "device_registry_url"="opc.tcp://localhost:8000" "number_default_clients"=5
+    python3 main.py "opc.tcp://localhost:4840" "./PFDL_Examples/advanced.pfdl" "dashboard_host_address"="http://localhost:8080" "device_registry_url"="opc.tcp://localhost:8000" "number_default_clients"=5
 
 ## OPC UA SDK Compatibility
 
@@ -61,7 +115,7 @@ Besides, Graphviz (https://graphviz.org/) must be installed on the system.
 ## Python Version
 
 ```
-    3.10.14
+    3.12
 ```
 
 ## Run Unit Tests 
@@ -73,17 +127,3 @@ Besides, Graphviz (https://graphviz.org/) must be installed on the system.
     
     cd this repository
     coverage run --omit=tests/*,__init__.py tests/unit_tests/run_unit_tests_with_coverage.py
-
-## Build Documentation
-
-To build the documentation, sphinx and the sphinx rtd theme are required. Both can be installed with:
-
-    sphinx sphinx-rtd-theme myst_parser rst2pdf
-
-Build the documentation:
-
-    cd this repository
-    #html
-    sphinx-build -M html documentation/source/ documentation/build/html
-    #pdf
-    sphinx-build -b pdf documentation/source/ documentation/build/pdf/
