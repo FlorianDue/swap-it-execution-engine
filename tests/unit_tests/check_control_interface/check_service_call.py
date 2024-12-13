@@ -24,7 +24,7 @@ class CheckServiceCall(unittest.TestCase):
         iteration_time = 0.001
         # start client, connect to server and explore the server's namespace
         async with Client(url=server_url) as client:
-            target_server_list = TargetServerList(None, iteration_time)
+            target_server_list = TargetServerList(None, iteration_time, 4)
             target_server = await target_server_list.get_target_server(server_url, service_browse_name)
             target_server.Input_Arguments, target_server.Output_Arguments = await CheckServiceMethodArguments().browse_method_arguments(
                 target_server.service_node, client, *await target_server.browse_result_data_type_nodes(client),

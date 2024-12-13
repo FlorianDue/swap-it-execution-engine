@@ -37,7 +37,7 @@ class CheckServiceStartedDispatcherCallback(unittest.TestCase):
         async with server:
             cb = DispatcherCallbackFunctions(server, server_instance, EngineOpcUaDataConverter(),
                                              OpcUaEngineDataConverter())
-            cb.add_control_interface(ControlInterface(server_instance, server, cb.service_execution_list, TargetServerList(server_instance, iteration_time), dr_url, None, "opc.tcp://localhost:", iteration_time, True))
+            cb.add_control_interface(ControlInterface(server_instance, server, cb.service_execution_list, TargetServerList(server_instance, iteration_time, 4), dr_url, None, "opc.tcp://localhost:", iteration_time, True, 4))
             #start a client to observe the service call
             observer = ObserverClient()
             observer.start_observer_client_thread("opc.tcp://localhost:4071", iteration_time, service_name)
@@ -89,7 +89,7 @@ class CheckServiceStartedDispatcherCallback(unittest.TestCase):
         async with server:
             cb = DispatcherCallbackFunctions(server, server_instance, EngineOpcUaDataConverter(),
                                              OpcUaEngineDataConverter())
-            cb.add_control_interface(ControlInterface(server_instance, server, cb.service_execution_list, TargetServerList(server_instance, iteration_time), dr_url, None, "opc.tcp://localhost:", iteration_time, True))
+            cb.add_control_interface(ControlInterface(server_instance, server, cb.service_execution_list, TargetServerList(server_instance, iteration_time, 4), dr_url, None, "opc.tcp://localhost:", iteration_time, True, 4))
             #start a client to observe the service call
             observer = ObserverClient()
             observer.start_observer_client_thread("opc.tcp://localhost:4071", iteration_time, service_name)

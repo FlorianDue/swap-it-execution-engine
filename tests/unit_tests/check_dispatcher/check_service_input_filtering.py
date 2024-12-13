@@ -43,7 +43,7 @@ class CheckServiceStartedInputFiltering(unittest.TestCase):
             #check for a static resource assignment
             self.assertEqual(cb.callback_helpers.check_for_target_type(server_instance, input_parameter, "ResourceAssignment"), "opc.tcp://service_server:4080")
             #check for capabilities
-            self.assertEqual(await AssignAgent(custom_server_types).create_filter_agent_input_arguments([["test_name"], input_parameter], service_name, custom_server_types), ['Milling', ['test_numeric'], ['5']])
+            self.assertEqual(await AssignAgent(custom_server_types, 4).create_filter_agent_input_arguments([["test_name"], input_parameter], service_name, custom_server_types), ['Milling', ['test_numeric'], ['5']])
             #check for static assignment agent
             self.assertEqual(cb.callback_helpers.check_for_target_type(server_instance, input_parameter, "AssignmentAgent"), "opc.tcp://assignment_agent:10000")
             # check for static device_registry

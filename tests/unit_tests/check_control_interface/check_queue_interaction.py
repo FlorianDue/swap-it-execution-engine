@@ -23,7 +23,7 @@ class QueueInteraction(unittest.TestCase):
         iteration_time = 0.001
         # start client, connect to server and explore the server's namespace
         async with (Client(url=server_url) as client):
-            target_server_list = TargetServerList(None, iteration_time)
+            target_server_list = TargetServerList(None, iteration_time, 4)
             target_server = await target_server_list.get_target_server(server_url, service_browse_name)
             queue = TargetServerQueue(iteration_time, client)
             id_dict = Identifier()

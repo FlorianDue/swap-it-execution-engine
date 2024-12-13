@@ -19,7 +19,7 @@ class CheckServerBrowsing(unittest.TestCase):
 
         async with Client(url="opc.tcp://localhost:4080") as client:
             #add a server to the target server list and check if it was browsed correctly
-            target_server = await TargetServerList(None, 0.001).get_target_server("opc.tcp://localhost:4080",
+            target_server = await TargetServerList(None, 0.001, 4).get_target_server("opc.tcp://localhost:4080",
                                                                                   "GetPartsFromWarehouse")
             #check browsenames
             for browsename, value in zip([target_server.implementation, target_server.explored, target_server.url,

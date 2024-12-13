@@ -13,10 +13,11 @@ class ObserverClient:
 
     def __init__(self):
         self.event_received = False
+        self.timeout = 4
 
     async def observer_client(self, tar_server_url, iteration_time, service_browse_name):
-        async with Client(url=tar_server_url) as client:
-            target_server_list = TargetServerList(None, iteration_time)
+        async with Client(url=tar_server_url, timeout = self.timeout) as client:
+            target_server_list = TargetServerList(None, iteration_time, self.timeout)
             target_server = await target_server_list.get_target_server(tar_server_url, service_browse_name)
             handler = SubHandler(client, tar_server_url, True)
             event_subscription = ServiceEvents(client, iteration_time, handler, target_server.event_node)

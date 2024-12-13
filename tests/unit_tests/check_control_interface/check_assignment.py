@@ -33,10 +33,10 @@ class CheckAssignment(unittest.TestCase):
         capa, _ = self.create_structures(custom_data_types, "ResourceAssignment",
                                {"job_resource":"opc.tcp://service_server:4080"},
                                "Milling_Capabilities", {"test_numeric": 5, "test_boolean": False})
-        target_server_list = TargetServerList(None, iteration_time)
+        target_server_list = TargetServerList(None, iteration_time, 4)
         target_server = await target_server_list.get_target_server(server_url, service_browse_name)
         #create the assignment class
-        assign_agent = AssignAgent(None)
+        assign_agent = AssignAgent(None, 4)
         #assign without existing target resource
         target_agent = await assign_agent.allocate_job_to_agent("Get", [[],[]], "opc.tcp://localhost:8000", None, custom_data_types)
         self.assertEqual(target_agent, None)

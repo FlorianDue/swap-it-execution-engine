@@ -20,11 +20,13 @@ from util.start_docker_compose import DockerComposeEnvironment
 class ExecuteUnitTests(unittest.TestCase):
 
     def test_run_unit_tests(self):
+        print("start tests")
         env = DockerComposeEnvironment(["Device_Registry", "Service_Server"])
         custom_type_definitions = RunExecutionEngineLogicTests().run_execution_engine_logic_tests(env = env)
         custom_type_definitions = RunControlInterfaceTests().run_control_interface_tests(custom_data_types=custom_type_definitions, env = env)
         custom_type_definitions = RunDispatcherTests().run_dispatcher_tests(custom_data_types = custom_type_definitions, env = env)
         env.stop_docker_compose()
+        print("completed tests")
 
 
 if __name__ == "__main__":

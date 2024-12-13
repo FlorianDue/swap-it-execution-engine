@@ -33,7 +33,7 @@ class CheckExecutionClient(unittest.TestCase):
         if custom_data_types == None:
             custom_data_types = server_instance.custom_data_types
         #server, server_instance, service_execution_list, target_server_list, device_registry_url, assignment_agent_url, docker, iteration_time, log_info):
-        ci = ControlInterface(server_instance, server, ExecutionList(), TargetServerList(server_instance, iteration_time), None, None, True, iteration_time, True)
+        ci = ControlInterface(server_instance, server, ExecutionList(), TargetServerList(server_instance, iteration_time, 4), None, None, True, iteration_time, True, 4)
         #client list should be emtpy
         self.assertEqual(len(ci.client_dict["Client"]), 0)
         #init and check default clients
