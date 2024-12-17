@@ -100,6 +100,23 @@ In case that some or all optional arguments should be deployed, the command woul
 
     python3 main.py "opc.tcp://localhost:4840" "./PFDL_Examples/advanced.pfdl" "dashboard_host_address"="http://localhost:8080" "device_registry_url"="opc.tcp://localhost:8000" "number_default_clients"=5
 
+## Start an ExecutionEngine from Docker
+
+The repository provides a Dockerfile from which a docker image with the swap-it-execution-engine can be build an executed. With the current configuration, the
+swap-it-execution-engine can execute processes, based on the SWAP-IT Demonstration Scenario (https://github.com/swap-it/demo-scenario) environment. For this, the repository
+also provides a corresponding docker-compose.yaml file.
+
+### Start the SWAP-IT Demonstration Scenario Environment
+    
+    git clone https://github.com/FraunhoferIOSB/swap-it-execution-engine.git
+    cd swap-it-execution-engine
+    docker-compose up
+
+### Build and Start the Execution Engine Docker Image
+    
+    docker build -t execution_engine -f Dockerfile .
+    docker run -p 3000:3000 execution_engine
+
 ## OPC UA SDK Compatibility
 
 Our approach is developed for the C-base open62541 OPC UA SDK (https://github.com/open62541/open62541). We also like to point to our swap-it-open62541-server template (https://github.com/FraunhoferIOSB/swap-it-open62541-server-template),
@@ -132,4 +149,4 @@ Besides, Graphviz (https://graphviz.org/) must be installed on the system.
 ## Run Unit Tests with Coverage
     
     cd this repository
-    coverage run --omit=tests/*,__init__.py tests/unit_tests/run_unit_tests_with_coverage.py
+    coverage run --omit=tests/*,__init__.py tests/unit_tests/run_unit_tests.py
