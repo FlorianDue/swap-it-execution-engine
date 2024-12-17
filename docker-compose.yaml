@@ -1,0 +1,53 @@
+#Licensed under the MIT License.
+#For details on the licensing terms, see the LICENSE file.
+#SPDX-License-Identifier: MIT
+#
+#Copyright 2023-2024 (c) Fraunhofer IOSB (Author: Florian Düwel)
+
+services:
+  Device_Registry:
+    image: ghcr.io/swap-it/demo-scenario/device_registry:latest
+    hostname: device_registry
+    expose:
+      - 8000
+    ports:
+      - "8000:8000"
+    networks:
+      - swap_patient_zero_network
+  Service_Server:
+    image: ghcr.io/swap-it/demo-scenario/demo-scenario:latest
+    hostname: service_server
+    expose:
+      - 4051
+      - 4061
+      - 4071
+      - 4081
+      - 4082
+      - 4083
+      - 4091
+      - 4092
+      - 4093
+    ports:
+      - "4051:4051"
+      - "4061:4061"
+      - "4071:4071"
+      - "4081:4081"
+      - "4082:4082"
+      - "4083:4083"
+      - "4091:4091"
+      - "4092:4092"
+      - "4093:4093"
+    networks:
+      - swap_patient_zero_network
+  Dashboard:
+    image: ghcr.io/swap-it/demo-scenario/dashboard:latest
+    hostname: dashboard
+    expose:
+      - 8080
+    ports:
+      - "8080:8080"
+    networks:
+      - swap_patient_zero_network
+networks:
+  swap_patient_zero_network:
+    driver: "bridge"

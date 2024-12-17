@@ -58,11 +58,11 @@ can continue the execution of subsequent Tasks.
 The simpleTask receives variable_2 and variable_3 as input from the productionTask. Here, the variables are attached to the
 simpleTaskObject and used as input and output for the simple_service (Line 33-34). In addition, the simple_service receives a
 literal input that does not appear in the Data Object (Line 35-37). The values of variable_2 and variable_3 are updated after the service execution completes.
-Since both variables are defined as Task output, they are transmitted from the simpleTask to the productiontask, as soon as the execution
+Since both variables are defined as Task output, they are transmitted from the simpleTask to the productionTask, as soon as the execution
 of the simpleTask completes.
 
 Finally, after the Parallel condition with the loopTask and the simpleTask is completed, the productionTask receives variable_2 and variable_3 as
-output and attaches them to its own TaskObject within the Data Object, so that it can be used from the productionTask to either specify input values to services and taks,
+output and attaches them to its own TaskObject within the Data Object, so that it can be used from the productionTask to either specify input values to services and tasks,
 or to evaluate conditions. Furthermore, the loopTaskObject and the simpleTaskObject are removed from the Data Object, so that
 only Tasks that are currently executed are represented within the Data Object.
 
