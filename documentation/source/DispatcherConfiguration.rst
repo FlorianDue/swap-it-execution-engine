@@ -67,7 +67,7 @@ The DispatcherConfig class can be extended with any kind of variables and functi
        | :ref:`Data Types` for each type provided in this type list.
    * - self.config_dispatcher()
      - function
-     - Configurates the dispatcher for the Execution Engine
+     - Configurate the dispatcher for the Execution Engine
 
 
 .. _DispatcherInterface Setter functions:
