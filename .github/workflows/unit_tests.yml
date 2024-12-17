@@ -4,7 +4,7 @@
 
 # Copyright 2023-2024 (c) Fraunhofer IOSB (Author: Florian Düwel)
 
-name: Measure code coverage
+name: Unit Tests
 
 on:
   push:
