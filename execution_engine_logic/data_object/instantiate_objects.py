@@ -18,6 +18,9 @@ class InstantiateTypes:
         self.custom_data_types = {"Name": [], "Class": [], "NodeId": []}
         self.life_cycle_name = "LifeCycleObject"
         self.task_node = None
+        self.service_started_event = None
+        self.service_finished_event = None
+
 
     async def load_custom_data_types(self):
         custom_type_definitions = await self.server.load_data_type_definitions()
@@ -29,9 +32,13 @@ class InstantiateTypes:
                  str(self.idx) + ":" + str(name)]))
         return self.custom_data_types
 
-    async def instantiate_data_object(self):
+    async def instantiate_data_object(self, service_started, service_finished, task_started, task_finished):
         self.data_lifecycle_object_type = await self.types.create_lifecycle_object_type()
         await instantiate(self.server.nodes.objects, self.data_lifecycle_object_type, bname=str(self.idx) + ":" + str(self.life_cycle_name))
+        self.service_started_event = service_started
+        self.service_finished_event = service_finished
+        self.task_finished_event = task_finished
+        self.task_started_event = task_started
 
     async def instantiate_task_object(self, task_uuid, task_name, task_context_uuid):
         task_object = await self.types.taks_object_type(task_name)

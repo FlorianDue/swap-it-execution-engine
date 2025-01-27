@@ -1,0 +1,1 @@
+docker run   --mount type=bind,source=$(pwd)/model,target=/model  sailavid/ua-modelcompiler -- -console -d2 /model/ExecutionEngineModelDesign.xml  -cg /model/ExecutionEngineModelDesign.csv -o2 /model/

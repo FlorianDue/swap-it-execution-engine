@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UANodeSet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" LastModified="2024-01-01T00:00:00Z" xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+  <NamespaceUris>
+    <Uri>http://execution.engine.swap.fraunhofer.de</Uri>
+  </NamespaceUris>
+  <Models>
+    <Model ModelUri="http://execution.engine.swap.fraunhofer.de" Version="1.00.0" PublicationDate="2024-01-01T00:00:00Z">
+      <RequiredModel ModelUri="http://opcfoundation.org/UA/" Version="1.03.00" PublicationDate="2013-12-02T00:00:00Z" />
+    </Model>
+  </Models>
+  <Aliases>
+    <Alias Alias="Boolean">i=1</Alias>
+    <Alias Alias="SByte">i=2</Alias>
+    <Alias Alias="Byte">i=3</Alias>
+    <Alias Alias="Int16">i=4</Alias>
+    <Alias Alias="UInt16">i=5</Alias>
+    <Alias Alias="Int32">i=6</Alias>
+    <Alias Alias="UInt32">i=7</Alias>
+    <Alias Alias="Int64">i=8</Alias>
+    <Alias Alias="UInt64">i=9</Alias>
+    <Alias Alias="Float">i=10</Alias>
+    <Alias Alias="Double">i=11</Alias>
+    <Alias Alias="DateTime">i=13</Alias>
+    <Alias Alias="String">i=12</Alias>
+    <Alias Alias="ByteString">i=15</Alias>
+    <Alias Alias="Guid">i=14</Alias>
+    <Alias Alias="XmlElement">i=16</Alias>
+    <Alias Alias="NodeId">i=17</Alias>
+    <Alias Alias="ExpandedNodeId">i=18</Alias>
+    <Alias Alias="QualifiedName">i=20</Alias>
+    <Alias Alias="LocalizedText">i=21</Alias>
+    <Alias Alias="StatusCode">i=19</Alias>
+    <Alias Alias="Structure">i=22</Alias>
+    <Alias Alias="Number">i=26</Alias>
+    <Alias Alias="Integer">i=27</Alias>
+    <Alias Alias="UInteger">i=28</Alias>
+    <Alias Alias="HasComponent">i=47</Alias>
+    <Alias Alias="HasProperty">i=46</Alias>
+    <Alias Alias="Organizes">i=35</Alias>
+    <Alias Alias="HasEventSource">i=36</Alias>
+    <Alias Alias="HasNotifier">i=48</Alias>
+    <Alias Alias="HasSubtype">i=45</Alias>
+    <Alias Alias="HasTypeDefinition">i=40</Alias>
+    <Alias Alias="HasModellingRule">i=37</Alias>
+    <Alias Alias="HasEncoding">i=38</Alias>
+    <Alias Alias="HasDescription">i=39</Alias>
+  </Aliases>
+  <UAObjectType NodeId="ns=1;i=15003" BrowseName="1:ServiceStartedEvent">
+    <DisplayName>ServiceStartedEvent</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty">ns=1;i=15013</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=15025</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=15039</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=15042</Reference>
+      <Reference ReferenceType="HasSubtype" IsForward="false">i=2041</Reference>
+    </References>
+  </UAObjectType>
+  <UAVariable NodeId="ns=1;i=15013" BrowseName="1:service_uuid" ParentNodeId="ns=1;i=15003" DataType="String" AccessLevel="3">
+    <DisplayName>service_uuid</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=15003</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=15025" BrowseName="1:service_name" ParentNodeId="ns=1;i=15003" DataType="String" AccessLevel="3">
+    <DisplayName>service_name</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=15003</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=15039" BrowseName="1:time" ParentNodeId="ns=1;i=15003" DataType="String" AccessLevel="3">
+    <DisplayName>time</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=15003</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=15042" BrowseName="1:ee_url" ParentNodeId="ns=1;i=15003" DataType="String" AccessLevel="3">
+    <DisplayName>ee_url</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=15003</Reference>
+    </References>
+  </UAVariable>
+  <UAObjectType NodeId="ns=1;i=15043" BrowseName="1:ServiceFinishedEvent">
+    <DisplayName>ServiceFinishedEvent</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty">ns=1;i=15053</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=15054</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=15055</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=15056</Reference>
+      <Reference ReferenceType="HasSubtype" IsForward="false">i=2041</Reference>
+    </References>
+  </UAObjectType>
+  <UAVariable NodeId="ns=1;i=15053" BrowseName="1:service_uuid" ParentNodeId="ns=1;i=15043" DataType="String" AccessLevel="3">
+    <DisplayName>service_uuid</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=15043</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=15054" BrowseName="1:service_name" ParentNodeId="ns=1;i=15043" DataType="String" AccessLevel="3">
+    <DisplayName>service_name</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=15043</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=15055" BrowseName="1:time" ParentNodeId="ns=1;i=15043" DataType="String" AccessLevel="3">
+    <DisplayName>time</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=15043</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=15056" BrowseName="1:ee_url" ParentNodeId="ns=1;i=15043" DataType="String" AccessLevel="3">
+    <DisplayName>ee_url</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=15043</Reference>
+    </References>
+  </UAVariable>
+  <UAObjectType NodeId="ns=1;i=15001" BrowseName="1:TaskFinishedEvent">
+    <DisplayName>TaskFinishedEvent</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty">ns=1;i=15022</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=15023</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=15024</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=15026</Reference>
+      <Reference ReferenceType="HasSubtype" IsForward="false">i=2041</Reference>
+    </References>
+  </UAObjectType>
+  <UAVariable NodeId="ns=1;i=15022" BrowseName="1:task_uuid" ParentNodeId="ns=1;i=15001" DataType="String" AccessLevel="3">
+    <DisplayName>task_uuid</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=15001</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=15023" BrowseName="1:task_name" ParentNodeId="ns=1;i=15001" DataType="String" AccessLevel="3">
+    <DisplayName>task_name</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=15001</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=15024" BrowseName="1:time" ParentNodeId="ns=1;i=15001" DataType="String" AccessLevel="3">
+    <DisplayName>time</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=15001</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=15026" BrowseName="1:ee_url" ParentNodeId="ns=1;i=15001" DataType="String" AccessLevel="3">
+    <DisplayName>ee_url</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=15001</Reference>
+    </References>
+  </UAVariable>
+  <UAObjectType NodeId="ns=1;i=15027" BrowseName="1:TaskStartedEvent">
+    <DisplayName>TaskStartedEvent</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty">ns=1;i=15037</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=15038</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=15040</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=15041</Reference>
+      <Reference ReferenceType="HasSubtype" IsForward="false">i=2041</Reference>
+    </References>
+  </UAObjectType>
+  <UAVariable NodeId="ns=1;i=15037" BrowseName="1:task_uuid" ParentNodeId="ns=1;i=15027" DataType="String" AccessLevel="3">
+    <DisplayName>task_uuid</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=15027</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=15038" BrowseName="1:task_name" ParentNodeId="ns=1;i=15027" DataType="String" AccessLevel="3">
+    <DisplayName>task_name</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=15027</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=15040" BrowseName="1:time" ParentNodeId="ns=1;i=15027" DataType="String" AccessLevel="3">
+    <DisplayName>time</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=15027</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=15041" BrowseName="1:ee_url" ParentNodeId="ns=1;i=15027" DataType="String" AccessLevel="3">
+    <DisplayName>ee_url</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=15027</Reference>
+    </References>
+  </UAVariable>
+</UANodeSet>

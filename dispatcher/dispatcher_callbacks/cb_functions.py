@@ -4,6 +4,7 @@
 
 # Copyright 2023-2024 (c) Fraunhofer IOSB (Author: Florian Düwel)
 from dispatcher.dispatcher_callbacks.cb_util import CallbackHelpers
+from dispatcher.dispatcher_callbacks.cb_events import CallbackEvents
 from execution_engine_logic.service_execution.execution_dict import ServiceInfo, ExecutionList
 from datetime import datetime
 import uuid, asyncio
@@ -21,12 +22,14 @@ class DispatcherCallbackFunctions:
         self.ee_data_converter = ee_data_converter
         self.opcua_data_converter = opcua_data_converter
         self.baseTaskuuid = None
+        self.events = CallbackEvents(self.server, self.server_instance)
 
     def add_control_interface(self, ControlInterface):
         self.control_interface = ControlInterface
         self.target_server_list = self.control_interface.target_server_list
 
     async def task_finished_cb(self, name:str, task_identifier, context:str, output_parameters):
+        await self.events.fire_task_finished_event(task_identifier, name)
         if self.server.log_info:
             print("[", datetime.now(), "] Task " + name +" with UUID: " + task_identifier + " finished in context ", context)
         if len(output_parameters) != 0 and context != task_identifier:
@@ -49,11 +52,12 @@ class DispatcherCallbackFunctions:
                 elif str(data_type) == "bool":
                     data_type = "boolean"
                 await self.server.data_object.add_struct_variable([variable], [data_type], [val],
-                                                                context, self.server_instance, self.server)
+                                                                  context, self.server_instance, self.server)
         if task_identifier != context:
             await self.server.data_object.remove_node(ua.NodeId(Identifier=uuid.UUID(task_identifier), NamespaceIndex=self.server.idx, NodeIdType=ua.NodeIdType.Guid))
 
     async def task_started_cb(self, name:str, task_identifier, context:str, input_parameters, parameters_instances):
+        await self.events.fire_task_started_event(task_identifier, name)
         if self.server.log_info:
             print("[", datetime.now(), "] Task " + name +" with UUID: " + task_identifier + " started in context ", context)
         await self.server.data_object.opcua_declarations.instantiate_task_object(task_identifier, name, context)
@@ -69,6 +73,8 @@ class DispatcherCallbackFunctions:
             await self.server.data_object.opcua_declarations.instantiate_task_object(self.baseTaskuuid, "DefaultTask", self.baseTaskuuid)
         if self.server.log_info:
             print("[", datetime.now(), "] Service " + str(name) + " with UUID " + str(service_uuid) + " started in context " + str(context))
+        await self.events.fire_service_started_event(service_uuid, name)
+
         self.service_execution_list.add_service(ServiceInfo(service_uuid, context, False, name))
         names, values = await self.callback_helpers.read_struct_value_from_data_object(*self.callback_helpers.classify_service_input(input_parameters), context)
         o_parameters = self.callback_helpers.read_service_output_parameter(output_parameters)
@@ -82,6 +88,7 @@ class DispatcherCallbackFunctions:
             context = self.baseTaskuuid
         if self.server.log_info:
             print("[", datetime.now(), "] Service " + name + " with UUID " + service_identifier + " finished  in context " + context)
+        await self.events.fire_service_finished_event(service_identifier, name)
         for parameter in self.server.parameters.parameters:
             if str(parameter.context) == str(context) and str(parameter.service_uuid) == str(service_identifier):
                 for variable in range(len(parameter.variables)):
@@ -89,7 +96,7 @@ class DispatcherCallbackFunctions:
                     if val != None:
                         await self.server.data_object.remove_node(self.server.data_object.get_nodeId_fromType(str(parameter.type[variable])))
                     await self.server.data_object.add_struct_variable([parameter.variables[variable]], [parameter.type[variable]], [parameter.results[variable]],
-                                                                    parameter.context, self.server_instance, self.server)
+                                                                      parameter.context, self.server_instance, self.server)
                 self.server.parameters.remove_parameter(parameter.service_uuid)
 
     async def read_struct_parameter_from_server(self, variable_name, task_id):

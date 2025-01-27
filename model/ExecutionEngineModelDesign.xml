@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensed under the MIT License.
+For details on the licensing terms, see the LICENSE file.
+SPDX-License-Identifier: MIT
+
+Copyright 2023-2024 (c) Fraunhofer IOSB (Author: Florian Düwel)
+-->
+
+<ModelDesign
+  xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ua="http://opcfoundation.org/UA/"
+  xmlns:ee="http://execution.engine.swap.fraunhofer.de"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  TargetNamespace="http://execution.engine.swap.fraunhofer.de"
+  TargetXmlNamespace="http://execution.engine.swap.fraunhofer.de"
+  TargetVersion="1.00.0"
+  TargetPublicationDate="2024-01-01T00:00:00Z"
+  xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+
+  <Namespaces>
+    <Namespace Name="ExecutionEngine" Prefix="SWAP.Fraunhofer.Execution.Engine.Model" XmlNamespace="http://execution.engine.swap.fraunhofer.de/Types.xsd" XmlPrefix="ee">http://execution.engine.swap.fraunhofer.de</Namespace>
+    <Namespace Name="OpcUa" Prefix="Opc.Ua" Version="1.03.00" PublicationDate="2013-12-02T00:00:00Z" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" XmlPrefix="ua">http://opcfoundation.org/UA/</Namespace>
+  </Namespaces>
+
+
+  <ObjectType SymbolicName="ee:ServiceStartedEvent" BaseType="ua:BaseEventType">
+    <Children>
+      <Property SymbolicName="ee:service_uuid" DataType="ua:String" ModellingRule="Mandatory" AccessLevel="ReadWrite"/>
+      <Property SymbolicName="ee:service_name" DataType="ua:String" ModellingRule="Mandatory" AccessLevel="ReadWrite"/>
+      <Property SymbolicName="ee:time" DataType="ua:String" ModellingRule="Mandatory" AccessLevel="ReadWrite"/>
+      <Property SymbolicName="ee:ee_url" DataType="ua:String" ModellingRule="Mandatory" AccessLevel="ReadWrite"/>
+    </Children>
+  </ObjectType>
+
+  <ObjectType SymbolicName="ee:ServiceFinishedEvent" BaseType="ua:BaseEventType">
+    <Children>
+      <Property SymbolicName="ee:service_uuid" DataType="ua:String" ModellingRule="Mandatory" AccessLevel="ReadWrite"/>
+      <Property SymbolicName="ee:service_name" DataType="ua:String" ModellingRule="Mandatory" AccessLevel="ReadWrite"/>
+      <Property SymbolicName="ee:time" DataType="ua:String" ModellingRule="Mandatory" AccessLevel="ReadWrite"/>
+      <Property SymbolicName="ee:ee_url" DataType="ua:String" ModellingRule="Mandatory" AccessLevel="ReadWrite"/>
+    </Children>
+  </ObjectType>
+
+  <ObjectType SymbolicName="ee:TaskFinishedEvent" BaseType="ua:BaseEventType">
+    <Children>
+      <Property SymbolicName="ee:task_uuid" DataType="ua:String" ModellingRule="Mandatory" AccessLevel="ReadWrite"/>
+      <Property SymbolicName="ee:task_name" DataType="ua:String" ModellingRule="Mandatory" AccessLevel="ReadWrite"/>
+      <Property SymbolicName="ee:time" DataType="ua:String" ModellingRule="Mandatory" AccessLevel="ReadWrite"/>
+      <Property SymbolicName="ee:ee_url" DataType="ua:String" ModellingRule="Mandatory" AccessLevel="ReadWrite"/>
+    </Children>
+  </ObjectType>
+
+  <ObjectType SymbolicName="ee:TaskStartedEvent" BaseType="ua:BaseEventType">
+    <Children>
+      <Property SymbolicName="ee:task_uuid" DataType="ua:String" ModellingRule="Mandatory" AccessLevel="ReadWrite"/>
+      <Property SymbolicName="ee:task_name" DataType="ua:String" ModellingRule="Mandatory" AccessLevel="ReadWrite"/>
+      <Property SymbolicName="ee:time" DataType="ua:String" ModellingRule="Mandatory" AccessLevel="ReadWrite"/>
+      <Property SymbolicName="ee:ee_url" DataType="ua:String" ModellingRule="Mandatory" AccessLevel="ReadWrite"/>
+    </Children>
+  </ObjectType>
+
+</ModelDesign>

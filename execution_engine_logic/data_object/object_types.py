@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: MIT
 
 # Copyright 2023-2024 (c) Fraunhofer IOSB (Author: Florian Düwel)
+from asyncua import ua
 class ObjectTypes:
 
     def __init__(self, server, idx):
@@ -31,5 +32,4 @@ class ObjectTypes:
         await current_execution.set_writable()
         await current_execution.set_modelling_rule(True)
         return task_object_type
-
 
