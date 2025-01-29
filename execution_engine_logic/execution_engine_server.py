@@ -53,6 +53,7 @@ class ExecutionEngineServer:
             ["0:Types", "0:EventTypes", "0:BaseEventType", str(self.ee_namespace_idx)+":TaskStartedEvent"])
         task_finished = await self.server.nodes.root.get_child(
             ["0:Types", "0:EventTypes", "0:BaseEventType", str(self.ee_namespace_idx)+":TaskFinishedEvent"])
+        #todo use running variable fro dispatcher
         await TypeGenerator(self).create_opcua_types(struct_object)
         self.custom_data_types = await self.data_object.opcua_declarations.load_custom_data_types()
         await self.data_object.opcua_declarations.instantiate_data_object(service_started, service_finished, task_started, task_finished)
