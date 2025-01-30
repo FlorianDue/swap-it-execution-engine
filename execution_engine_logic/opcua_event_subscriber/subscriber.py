@@ -5,7 +5,7 @@ import paho.mqtt.client as mqtt
 
 class MQTTClient:
 
-    def __init__(self, broker="test.mosquitto.org", port=1883, topic="opcua/events"):
+    def __init__(self, broker="host.docker.internal", port=1884, topic="opcua/events"):
         self.client = mqtt.Client()
         self.broker = broker
         self.port = port

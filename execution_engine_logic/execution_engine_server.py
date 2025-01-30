@@ -39,7 +39,7 @@ class ExecutionEngineServer:
         self.data_object = data_object
         self.data_object.set_idx(self.idx)
         self.data_object.set_server(self.server)
-        await self.server.import_xml("model/SWAP.Fraunhofer.Execution.Engine.Model.NodeSet2.xml")
+        await self.server.import_xml("/app/swap-it-execution-engine/model/SWAP.Fraunhofer.Execution.Engine.Model.NodeSet2.xml")
         namespaces = await self.server.get_namespace_array()
         for i in range(len(namespaces)):
             if str(namespaces[i]) == "http://execution.engine.swap.fraunhofer.de":
