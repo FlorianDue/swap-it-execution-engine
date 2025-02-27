@@ -1,0 +1,242 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SWAP-IT Execution Engine &mdash; SWAP-IT Execution Engine 0.9.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=be50ab7b"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Getting Started" href="GettingStarted.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            SWAP-IT Execution Engine
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="GettingStarted.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ExecutionEngineLogic.html">Execution Engine Logic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Dispatcher.html">Dispatcher Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ControlInterface.html">Control Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="swap-it-architecture.html">SWAP-IT Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Contact.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="related_projects.html">Related-Projects</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">SWAP-IT Execution Engine</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">SWAP-IT Execution Engine</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="swap-it-execution-engine">
+<h1>SWAP-IT Execution Engine<a class="headerlink" href="#swap-it-execution-engine" title="Link to this heading"></a></h1>
+<p>The Execution Engine is a software component for the execution of processes, which was developed as part of the
+<a class="reference external" href="https://www.produktion.fraunhofer.de/en/research/research-cooperations/lighthouse-projects/swap.html">Fraunhofer lighthouse project SWAP-IT</a>.
+Further information about the SWAP-IT software modules can be found within the <a class="reference external" href="https://github.com/swap-it/demo-scenario">SWAP-IT Demonstration Scenario</a>.</p>
+<p>The Execution Engine itself is an OPC UA server and can be seen as interface between a scheduler and resources on a shop floor, which is able to execute scheduled processes
+and in this context, integrate custom <a class="reference internal" href="ResourceAssignment.html#resource-assignment"><span class="std std-ref">Resource Assignment</span></a> strategies, be attached to custom schedulers and map process parameters.
+Figure 1 illustrates the functional blocks of an Execution Engine and more details about its operational logic can be found in the section <a class="reference internal" href="ExecutionEngineLogic.html#execution-engine-logic"><span class="std std-ref">Execution Engine Logic</span></a>. The <a class="reference internal" href="DataObject.html#data-object"><span class="std std-ref">Execution Engine Data Object</span></a> constitutes a data base that holds all parameters,
+specified within a process description. Here, the <a class="reference internal" href="DataObject.html#data-object"><span class="std std-ref">Execution Engine Data Object</span></a> receives resource parameterization from the scheduler and stores them for
+the execution of Services. Besides, the <a class="reference internal" href="DataObject.html#data-object"><span class="std std-ref">Execution Engine Data Object</span></a> receives service results from the resources on the shop floor, which are then used to either
+update existing variables within the <a class="reference internal" href="DataObject.html#data-object"><span class="std std-ref">Execution Engine Data Object</span></a>, or to add new variables to it, which can later be used for a parameterization of a Service.</p>
+<p>To effectively find resources on the shop floor and assign services to them, the Execution Engine interacts with a <a class="reference internal" href="#device-registry"><span class="std std-ref">Device Registry</span></a>
+and can integrate custom <a class="reference internal" href="ResourceAssignment.html#resource-assignment"><span class="std std-ref">Resource Assignment</span></a> strategies. To execute Services on the Shop Floor, the Execution Engine has a build-in
+<a class="reference internal" href="ControlInterface.html#control-interface"><span class="std std-ref">Control Interface</span></a>, which features an arbitrary number of OPC UA Clients that interact with the resources on the <a class="reference internal" href="#shop-floor"><span class="std std-ref">Shop Floor</span></a>.</p>
+<p>Besides, the Execution Engine can integrate custom schedulers through its <a class="reference internal" href="Dispatcher.html#dispatcher-interface"><span class="std std-ref">Dispatcher Interface</span></a>. Here the Execution Engine provides a set of
+<a class="reference internal" href="DispatcherCallbacks.html#dispatcher-callbacks"><span class="std std-ref">Dispatcher Callbacks</span></a> to react to scheduled <a class="reference internal" href="#tasks-and-services"><span class="std std-ref">Tasks and Services</span></a>. In addition, the <a class="reference internal" href="Dispatcher.html#dispatcher-interface"><span class="std std-ref">Dispatcher Interface</span></a> provides a callback to
+communicate the completion of a Service Execution to the scheduler, as well as a callback to provide process data to the scheduler. These data can
+then be used by the scheduler to e.g., evaluate constructs such as loops or conditions.</p>
+<p>As default implementation, we connect the <a class="reference internal" href="#id5"><span class="std std-ref">PFDL Scheduler</span></a> to the execution engine to run it in the SWAP-IT context. However,
+the Execution Engine provides an API to connect the Execution Engine to <a class="reference internal" href="CustomDispatcherIntegration.html#custom-dispatchers"><span class="std std-ref">Custom Dispatcher Integration</span></a>.</p>
+<p>A small example on how to run the Execution Engine can be found in section <a class="reference internal" href="GettingStarted.html#getting-started"><span class="std std-ref">Getting Started</span></a>.</p>
+<figure class="align-default" id="id7">
+<a class="reference internal image-reference" href="_images/ExecutionEngineOverview.png"><img alt="Overview" src="_images/ExecutionEngineOverview.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><strong>Figure 1:</strong> Components of an Execution Engine</span><a class="headerlink" href="#id7" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<section id="tasks-and-services">
+<span id="id1"></span><h2>Tasks and Services<a class="headerlink" href="#tasks-and-services" title="Link to this heading"></a></h2>
+<p>In general, the Execution Engine distinguishes two constructs during process executions: Tasks and Service. In this context, a
+Service is the execution of a single functionality, e.g., a production skill,
+that the Execution Engine executes on another entity on a shop floor. In contrast, Tasks are construct that are build around services to
+enable the definition of process sequences. Here, tasks are only executed in the context of a Execution Engine. Tasks can be nested and can contain other
+tasks, as well as services, so that with both, tasks and Service, arbitrary process sequences can be specified and executed. In this context,
+Services can only be related to each other sequentially within a Task, but Task can also be executed in parallel to each other.</p>
+<p>Figure 2 gives a short overview of the interplay between Tasks and Services. The illustrated process features a Milling Service (1)
+and two paintingTasks (2) that are executed in parallel. Within each paintingTask, a Painting Service (3) is executed and after the
+paintingTasks are completed, a Drying Service (4) is executed. The right side of Figure 2 shows a visualization of the process as a petri net,
+which outlines the difference between Tasks and Services. Here, each Service in a process execution requires the placing of a token by a resource,
+which previously executed the service. This token is provided by the Service Finished Event (Figure 1) callback of the Execution Engine. In contrast,
+Tasks do not require external tokens, but instead, are executed around services, to e.g., coordinate the execution of Services.</p>
+<figure class="align-default" id="id8">
+<a class="reference internal image-reference" href="_images/TasksandServices.png"><img alt="Overview" src="_images/TasksandServices.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><strong>Figure 2:</strong> Example Process consisting of Tasks and Services</span><a class="headerlink" href="#id8" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="shop-floor">
+<span id="id2"></span><h2>Shop Floor<a class="headerlink" href="#shop-floor" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="ControlInterface.html#control-interface"><span class="std std-ref">Control Interface</span></a> of the Execution Engine interacts with entities of a shop floor to execute Services. Here, the <a class="reference internal" href="ControlInterface.html#control-interface"><span class="std std-ref">Control Interface</span></a>’s OPC UA Clients
+need a standardized interface to the shop floor entities. This interface is based on the <a class="reference external" href="https://github.com/FraunhoferIOSB/swap-it-common-information-model">Common Information Model</a>
+, so that an Execution Engine can interact with each OPC UA Server that includes information models based on the <a class="reference external" href="https://github.com/FraunhoferIOSB/swap-it-common-information-model">Common Information Model</a>.</p>
+</section>
+<section id="device-registry">
+<span id="id4"></span><h2>Device Registry<a class="headerlink" href="#device-registry" title="Link to this heading"></a></h2>
+<p>The Device Registry is another software component of the SWAP-IT Architecture that makes shop floor resources available to process executions.
+In this context, OPC UA Server, representing entities of a shop floor, can register themself in a Device Registry. During its <a class="reference internal" href="ResourceAssignment.html#resource-assignment"><span class="std std-ref">Resource Assignment</span></a>,
+the execution engine can request available resources for a specific Service from the Device Registry and then deploy an assignment strategy
+to assign the Service to one concrete resource. In this context, Device Registry also includes a built-in functionality for filtering resources based on their
+capabilities. For example, this filtering can be used to assign a transport task to an autonomous guided vehicle (AGV) with a maximum
+payload restriction. The Execution Engine can now use the Device Registry’s Filter Agent Method to obtain a
+list of AGVs that can carry a specific product. Factors such as the product’s weight and the maximum payload
+restriction of the resources are also considered by the Device Registry to filter and identify suitable resources.</p>
+</section>
+<section id="production-flow-description-language-and-pfdl-scheduler">
+<span id="pfdl-scheduler"></span><h2>Production Flow Description Language and PFDL-Scheduler<a class="headerlink" href="#production-flow-description-language-and-pfdl-scheduler" title="Link to this heading"></a></h2>
+<p><a class="reference external" href="https://ieeexplore.ieee.org/document/10003953">The Production Flow Description Language (PFDL)</a> is a powerful tool used in the realm of manufacturing and production management.
+It serves as a standardized language for describing and documenting the various steps and processes involved in manufacturing a product.
+A PFDL program corresponds to a single ordered product and specifies the production steps involved. It also serves as an input for an
+order controlled production, which can process it automatically. A PFDL program consists of structs and tasks, allowing for the definition
+of runtime aspects such as loops, conditions, and synchronization.</p>
+<p>PFDL offers a structured and systematic approach to defining the production flow. It allows manufacturers to break down
+the entire production process into individual tasks and sequences, providing a clear and comprehensive representation of how the
+product is made. Within a PFDL program, manufacturers can define different aspects of the production flow such as task dependencies,
+parallel execution, loops, conditions, and synchronization. This flexibility enables the creation of complex and dynamic production flows
+that accurately reflect real-world manufacturing scenarios. Overall, PFDL plays a crucial role in enhancing the understanding,
+communication, and automation of manufacturing processes, ultimately leading to improved productivity, quality, and efficiency in
+the production environment.</p>
+<section id="id5">
+<h3>PFDL Scheduler<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p>The PFDL itself is just the description language and needs to be parsed, validated, and transformed into a structure to
+control the production process. All of these functionalities is done by the so-called <a class="reference external" href="https://github.com/iml130/pfdl">PFDL Scheduler</a>. The scheduler parses and validates PFDL
+files, which are then transformed into a domain model, which is a representation of the production order as a python object. This model can then
+be used to generate a petri net, which is used to control the production by triggering events and receive events, e.g. when a service has finished.
+To enable this, the PFDL provides interfaces in both directions enabling a process control that makes use of generated PFDLs and keep track
+of the current state of the execution.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="GettingStarted.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="GettingStarted.html#start-an-execution-engine">Start an Execution Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GettingStarted.html#tutorials">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GettingStarted.html#configure-an-execution-engine">Configure an Execution Engine</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ExecutionEngineLogic.html">Execution Engine Logic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="DataObject.html">Execution Engine Data Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenerateOPCUATypes.html">Data Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ServiceInterface.html">Service Dispatcher Interaction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Dispatcher.html">Dispatcher Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ComputationalLogic.html">Computational Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DispatcherCallbacks.html">Dispatcher Callbacks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DispatcherConfiguration.html">Dispatcher Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CustomDispatcherIntegration.html">Custom Dispatcher Integration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ControlInterface.html">Control Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ResourceAssignment.html">Resource Assignment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="InputFiltering.html">Input Filtering</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="swap-it-architecture.html">SWAP-IT Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="swap-it-architecture.html#swap-it-software">SWAP-IT Software</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Contact.html">Contact</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Contact.html#support-issues">Support/Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Contact.html#pull-requests">Pull Requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Contact.html#private-contact">Private Contact</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="related_projects.html">Related-Projects</a></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="GettingStarted.html" class="btn btn-neutral float-right" title="Getting Started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Fraunhofer IOSB Author (Florian Düwel).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script> 
+
+</body>
+</html>

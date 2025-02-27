@@ -1,0 +1,145 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Computational Logic &mdash; SWAP-IT Execution Engine 0.9.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=be50ab7b"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Dispatcher Callbacks" href="DispatcherCallbacks.html" />
+    <link rel="prev" title="Dispatcher Interface" href="Dispatcher.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SWAP-IT Execution Engine
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="GettingStarted.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ExecutionEngineLogic.html">Execution Engine Logic</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="Dispatcher.html">Dispatcher Interface</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Computational Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DispatcherCallbacks.html">Dispatcher Callbacks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DispatcherConfiguration.html">Dispatcher Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CustomDispatcherIntegration.html">Custom Dispatcher Integration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ControlInterface.html">Control Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="swap-it-architecture.html">SWAP-IT Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Contact.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="related_projects.html">Related-Projects</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SWAP-IT Execution Engine</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="Dispatcher.html">Dispatcher Interface</a></li>
+      <li class="breadcrumb-item active">Computational Logic</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/ComputationalLogic.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="computational-logic">
+<span id="id1"></span><h1>Computational Logic<a class="headerlink" href="#computational-logic" title="Link to this heading"></a></h1>
+<p>To get a better understanding of the operational logic of an Execution Engine, Figure 1 illustrates its computational logic.
+The OPC UA Server of the Execution, as well as its OPC UA Clients are implemented with the <a class="reference external" href="https://github.com/FreeOpcUa/opcua-asyncio">open source Python asyncio Stack</a>,
+which uses with <a class="reference external" href="https://docs.python.org/3/library/asyncio.html">asyncio</a> asynchronous programming. Here, an
+EventLoop allows the managing and distributed execution of different operations. However, to effectively execute the separated Client and Server Loops, the Execution Engine’s
+OPC UA Server is executed in a main thread and each Client is started in a separate thread with an individual EventLoop.</p>
+<p>While the <a class="reference external" href="https://github.com/FreeOpcUa/opcua-asyncio">open source Python asyncio Stack</a> completely relies on asynchronous programming, a custom dispatcher implementation may not,
+so that it is required to invoke asynchronous operations (Callbacks Dispatcher Interface) from synchronous operations (Dispatcher). Here, the <a class="reference external" href="https://github.com/erdewit/nest_asyncio">Python nest_asyncio</a>
+library allows the nesting of asyncio EventLoops, so that a Dispatcher invocation of an Execution Engine callback is accomplished with a wrapper function that only starts a nested EventLoop,
+which then executes the actual callback of the dispatcher interface.</p>
+<p>The separate processing of the different program functionalities requires interfaces between them to make data available between different EventLoops and threads.
+Here, the nested EventLoops of the Dispatcher interface Callbacks can directly interact with the Main Loop of the OPC UA Server and thus, perform operations on the OPC UA Server,
+such as the adding or removing of variables and objects, or the reading and writing of variable values.</p>
+<p>Since OPC UA Clients of the Control Interface are started from the Dispatcher Interface’s <em>Service Started Callback</em>, the <a class="reference external" href="https://docs.python.org/3/library/queue.html">Python queue</a>
+library is deployed to ensure a safe exchange of information between the different threads. On the other side, the Main Thread receives information from the Control Interface about the completion of services,
+as well as the provision of execution parameter. Here a <em>Semaphore</em> between the different threads is utilized, where the Control Interfaces adds elements to either the service execution list or the Execution Parameter List. The Main Thread,
+checks at each iteration whether elements were added to the list or not. If so, the Main Thread can access these information through the callbacks or the OPC UA Server and react to their occurrence.</p>
+<figure class="align-default" id="id3">
+<a class="reference internal image-reference" href="_images/ComputationalLogic.png"><img alt="Overview" src="_images/ComputationalLogic.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><strong>Figure 1:</strong> Computational Logic of the Execution Engine</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Dispatcher.html" class="btn btn-neutral float-left" title="Dispatcher Interface" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="DispatcherCallbacks.html" class="btn btn-neutral float-right" title="Dispatcher Callbacks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Fraunhofer IOSB Author (Florian Düwel).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script> 
+
+</body>
+</html>
