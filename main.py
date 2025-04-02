@@ -4,10 +4,11 @@
 
 # Copyright 2023-2024 (c) Fraunhofer IOSB (Author: Florian Düwel)
 
-import asyncio, sys
+import asyncio, sys, os
 from execution_engine_logic.execution_engine import ExecutionEngine
 from dispatcher.dispatcher_configuration import DispatcherConfig
 
+sys.path.append(os.path.join(os.path.dirname(__file__), "."))
 
 def main():
     optinal_arguments = dict(arg.split("=") for arg in sys.argv[3:])
@@ -18,7 +19,8 @@ def main():
         optinal_arguments.__delitem__("dashboard_host_address")
     execute_process(sys.argv[1], dispatcher_object, **optinal_arguments)
 
-def execute_process(server_url, dispatcher_object, log_info = False, device_registry_url = None, custom_url = None, number_default_clients = 1, assignment_agent_url = None, delay_start = None):
+
+def execute_process(server_url, dispatcher_object, log_info = False, device_registry_url = None, custom_url = None, number_default_clients = 1, assignment_agent_url = None, delay_start = None, priority = 2, prioritizer_url = None):
 
     main_loop = asyncio.new_event_loop()
     main_loop.run_until_complete(ExecutionEngine(
@@ -29,7 +31,9 @@ def execute_process(server_url, dispatcher_object, log_info = False, device_regi
         custom_url=custom_url,
         number_default_clients=number_default_clients,
         assignment_agent_url= assignment_agent_url,
-        delay_start=delay_start
+        delay_start=delay_start,
+        priority = priority,
+        prioritizer = prioritizer_url
     ).main())
 
 if __name__ == "__main__":
