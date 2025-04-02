@@ -155,7 +155,7 @@ class DemoScenarioStructureValues:
 
         self.resource_assignment = EngineStruct("ResourceAssignment")
         self.resource_assignment.set_struct_type("ResourceAssignment")
-        self.resource_assignment.add_attribute("job_resource", "opc.tcp://service_server:4080")
+        self.resource_assignment.add_attribute("job_resource", "opc.tcp://service_server:4081")
 
         self.capabilities = EngineStruct("Milling_Capabilities")
         self.capabilities.set_struct_type("Milling_Capabilities")
@@ -255,7 +255,7 @@ class AssignmentStructures:
     def engine_structure_description(self):
         self.resource_assignment = EngineStruct("ResourceAssignment")
         self.resource_assignment.set_struct_type("ResourceAssignment")
-        self.resource_assignment.add_attribute("job_resource", "opc.tcp://service_server:4080")
+        self.resource_assignment.add_attribute("job_resource", "opc.tcp://service_server:4081")
 
         self.capabilities = EngineStruct("Milling_Capabilities")
         self.capabilities.set_struct_type("Milling_Capabilities")

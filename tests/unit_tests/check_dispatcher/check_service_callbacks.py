@@ -37,7 +37,8 @@ class CheckServiceStartedDispatcherCallback(unittest.TestCase):
         async with server:
             cb = DispatcherCallbackFunctions(server, server_instance, EngineOpcUaDataConverter(),
                                              OpcUaEngineDataConverter())
-            cb.add_control_interface(ControlInterface(server_instance, server, cb.service_execution_list, TargetServerList(server_instance, iteration_time, 4), dr_url, None, "opc.tcp://localhost:", iteration_time, True, 4))
+            order_id = str(uuid.uuid4())
+            cb.add_control_interface(ControlInterface(server_instance, server, cb.service_execution_list, TargetServerList(server_instance, iteration_time, 4), dr_url, None, "opc.tcp://localhost:", iteration_time, True, 4, order_id))
             #start a client to observe the service call
             observer = ObserverClient()
             observer.start_observer_client_thread("opc.tcp://localhost:4071", iteration_time, service_name)
@@ -68,12 +69,12 @@ class CheckServiceStartedDispatcherCallback(unittest.TestCase):
             self.assertEqual(cb.control_interface.service_execution_list.services[0].service_name, "Milling")
             await server.stop()
         env.stop_docker_compose()
-        await asyncio.sleep(10)
+        await asyncio.sleep(20)
         return custom_server_types
 
     async def check_service_callback_with_ordinary_task(self, custom_server_types = None, env = DockerComposeEnvironment(["Device_Registry", "Service_Server"])):
         env.run_docker_compose()
-        await asyncio.sleep(10)
+        await asyncio.sleep(20)
         helper = Helper()
         service_name = "Milling"
         ee_url = "opc.tcp://localhost:4000"
@@ -89,7 +90,7 @@ class CheckServiceStartedDispatcherCallback(unittest.TestCase):
         async with server:
             cb = DispatcherCallbackFunctions(server, server_instance, EngineOpcUaDataConverter(),
                                              OpcUaEngineDataConverter())
-            cb.add_control_interface(ControlInterface(server_instance, server, cb.service_execution_list, TargetServerList(server_instance, iteration_time, 4), dr_url, None, "opc.tcp://localhost:", iteration_time, True, 4))
+            cb.add_control_interface(ControlInterface(server_instance, server, cb.service_execution_list, TargetServerList(server_instance, iteration_time, 4), dr_url, None, "opc.tcp://localhost:", iteration_time, True, 4, str(uuid.uuid4())))
             #start a client to observe the service call
             observer = ObserverClient()
             observer.start_observer_client_thread("opc.tcp://localhost:4071", iteration_time, service_name)
@@ -109,7 +110,7 @@ class CheckServiceStartedDispatcherCallback(unittest.TestCase):
 
             # wait until the service finished event of the milling service was observerd
             while observer.event_received == False:
-                await asyncio.sleep(1)
+                await asyncio.sleep(0.01)
             server_namespace = CheckServerNamespace(2)
             await server_namespace.start_client(ee_url, server.get_node(server.nodes.objects), True)
             target_ee_objects = [production_task_uuid, task1_uuid]
@@ -130,6 +131,7 @@ class CheckServiceStartedDispatcherCallback(unittest.TestCase):
             self.assertEqual(cb.control_interface.service_execution_list.services[0].service_name, "Milling")
             await server.stop()
         env.stop_docker_compose()
+        await asyncio.sleep(20)
         return custom_server_types
 
     def check_service_started_callbacks_test_without_tasks(self, custom_data_types = None, env = None):

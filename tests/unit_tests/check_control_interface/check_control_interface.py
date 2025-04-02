@@ -13,12 +13,12 @@ class CheckControlInterface(unittest.TestCase):
         #todo write the test
         env = DockerComposeEnvironment(["Device_Registry", "Service_Server"])
         env.run_docker_compose()
-        time.sleep(10)
+        time.sleep(20)
         service_browse_name = "GetPartsFromWarehouse"
-        server_url = "opc.tcp://localhost:4080"
+        server_url = "opc.tcp://localhost:4081"
         iteration_time = 0.001
         env.stop_docker_compose()
-        await asyncio.sleep(10)
+        await asyncio.sleep(20)
 
     def test_check_assignment(self):
         loop = asyncio.get_event_loop()

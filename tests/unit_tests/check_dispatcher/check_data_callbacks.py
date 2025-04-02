@@ -18,7 +18,7 @@ from asyncua import ua
 class CheckDataDispatcherCallback(unittest.TestCase):
     async def check_data_callback(self, custom_server_types = None, env = DockerComposeEnvironment(["Device_Registry", "Service_Server"])):
         env.run_docker_compose()
-        await asyncio.sleep(10)
+        await asyncio.sleep(20)
         helper = Helper()
         ee_url = "opc.tcp://localhost:4000"
         iteration_time = 0.001
@@ -75,7 +75,7 @@ class CheckDataDispatcherCallback(unittest.TestCase):
             check_converter.check_generated_engine_types(await cb.provide_parameter("test", task1_uuid), target_val)
             await server.stop()
         env.stop_docker_compose()
-        await asyncio.sleep(10)
+        await asyncio.sleep(20)
         return custom_server_types
 
     def check_data_callbacks_test(self, custom_data_types = None, env = None):

@@ -20,9 +20,9 @@ class CheckExecutionClient(unittest.TestCase):
     async def check_execution_client(self, custom_data_types = None):
         env = DockerComposeEnvironment(["Device_Registry", "Service_Server"])
         env.run_docker_compose()
-        time.sleep(10)
+        time.sleep(20)
         service_browse_name = "GetPartsFromWarehouse"
-        server_url = "opc.tcp://localhost:4080"
+        server_url = "opc.tcp://localhost:4081"
         iteration_time = 0.001
         ee_url = "opc.tcp://localhost:4000"
         server_instance = ExecutionEngineServer(execution_engine_server_url=ee_url, log_info=True,
@@ -44,7 +44,7 @@ class CheckExecutionClient(unittest.TestCase):
 
         # start new client since there are no in the execution list
         env.stop_docker_compose()
-        await asyncio.sleep(10)
+        await asyncio.sleep(20)
         return custom_data_types
 
 

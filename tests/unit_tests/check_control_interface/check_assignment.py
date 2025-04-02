@@ -17,9 +17,9 @@ class CheckAssignment(unittest.TestCase):
 
     async def check_static_assignment(self,custom_data_types = None, env = DockerComposeEnvironment(["Device_Registry", "Service_Server"])):
         env.run_docker_compose()
-        time.sleep(10)
+        time.sleep(20)
         service_browse_name = "GetPartsFromWarehouse"
-        server_url = "opc.tcp://localhost:4080"
+        server_url = "opc.tcp://localhost:4081"
         iteration_time = 0.001
         types = DemoScenarioStructureTypes()
         if custom_data_types == None:
@@ -31,7 +31,7 @@ class CheckAssignment(unittest.TestCase):
             server = await server_instance.start_server(types.structures, DataObject(EngineOpcUaDataConverter()))
             custom_data_types = server_instance.custom_data_types
         capa, _ = self.create_structures(custom_data_types, "ResourceAssignment",
-                               {"job_resource":"opc.tcp://service_server:4080"},
+                               {"job_resource":"opc.tcp://service_server:4081"},
                                "Milling_Capabilities", {"test_numeric": 5, "test_boolean": False})
         target_server_list = TargetServerList(None, iteration_time, 4)
         target_server = await target_server_list.get_target_server(server_url, service_browse_name)
@@ -49,7 +49,7 @@ class CheckAssignment(unittest.TestCase):
             #todo assign with external agent
             #todo assign with capability from dlo
         env.stop_docker_compose()
-        await asyncio.sleep(10)
+        await asyncio.sleep(20)
 
     def create_structures(self, custom_types, assignment_structure, assign_kwargs, capability_structure, capa_kwargs):
         assign, capa = None, None

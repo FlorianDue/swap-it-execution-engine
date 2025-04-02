@@ -15,11 +15,10 @@ from asyncua import Client
 class QueueInteraction(unittest.TestCase):
 
     async def queue_interaction(self, env = DockerComposeEnvironment(["Device_Registry", "Service_Server"])):
-        #env = DockerComposeEnvironment(["Device_Registry", "Service_Server"])
         env.run_docker_compose()
-        time.sleep(10)
+        time.sleep(20)
         service_browse_name = "GetPartsFromWarehouse"
-        server_url = "opc.tcp://localhost:4080"
+        server_url = "opc.tcp://localhost:4081"
         iteration_time = 0.001
         # start client, connect to server and explore the server's namespace
         async with (Client(url=server_url) as client):
@@ -29,8 +28,9 @@ class QueueInteraction(unittest.TestCase):
             id_dict = Identifier()
             for i in range(3):
                 id_dict.ids["Service"].append(str(uuid.uuid4()))
-                id_dict.ids["Client"].append(await queue.client_add_queue_element(target_server, id_dict.ids["Service"][i]))
-            #the queue elements are added asynchronously, so give the serter time to add them
+                id_dict.ids["Order"].append(str(uuid.uuid4()))
+                id_dict.ids["Client"].append(await queue.client_add_queue_element(target_server, id_dict.ids["Service"][i], id_dict.ids["Order"][i]))
+            #the queue elements are added asynchronously, so give the server time to add them
             time.sleep(5)
             #check if the elements where added correctly
             value = await client.get_node(target_server.queue_variable).read_value()
@@ -43,18 +43,19 @@ class QueueInteraction(unittest.TestCase):
                         matched = True
                         id_dict_new.ids["Service"].append(id_dict.ids["Service"][j])
                         id_dict_new.ids["Client"].append(id_dict.ids["Client"][j])
+                        id_dict_new.ids["Order"].append(id_dict.ids["Order"][j])
                 self.assertEqual(matched, True)
             #remove queue elements
             for i in range(len(value)):
                 await queue.wait_for_queue_position_one(target_server, id_dict.ids["Client"][i], id_dict.ids["Service"][i])
-                await queue.client_remove_queue_element(target_server, id_dict.ids["Service"][i], id_dict.ids["Client"][i])
+                await queue.client_remove_queue_element(target_server, id_dict.ids["Service"][i], id_dict.ids["Client"][i], id_dict.ids["Order"][i])
             time.sleep(5)
             value = await client.get_node(target_server.queue_variable).read_value()
             param = ServiceParameter(target_server.client_custom_data_types)
-            queue_type = param.get_custom_type("Queue_Data_Type")(Client_Identifier=None, Service_UUID=None, Entry_Number=param.get_custom_type("Queue_State_Variable_Type")(0), Queue_Element_State=0, ProductId=None, ServiceParameter=None)
+            queue_type = param.get_custom_type("Queue_Data_Type")(Client_Identifier=None, Service_UUID=None, Entry_Number=param.get_custom_type("Queue_State_Variable_Type")(0), Queue_Element_State=0, OrderId=None, ServiceParameter=None)
             self.assertEqual(value, queue_type)
         env.stop_docker_compose()
-        await asyncio.sleep(10)
+        await asyncio.sleep(20)
 
     def run_queue_interaction(self, env = None):
         loop = asyncio.get_event_loop()
@@ -63,5 +64,5 @@ class QueueInteraction(unittest.TestCase):
 class Identifier:
 
     def __init__(self):
-        self.ids = {"Client":[], "Service":[]}
+        self.ids = {"Client":[], "Service":[], "Order":[]}
 

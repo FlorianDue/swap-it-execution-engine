@@ -6,7 +6,8 @@
 
 services:
   Device_Registry:
-    image: ghcr.io/swap-it/demo-scenario/device_registry:execution_engine_tutorials
+    #image: device_registry
+    image: ghcr.io/swap-it/demo-scenario/device_registry:execution_engine_tests
     hostname: device_registry
     expose:
       - 8000
@@ -15,13 +16,13 @@ services:
     networks:
       - demonstration_scenario_network
   Service_Server:
-    image: ghcr.io/swap-it/demo-scenario/demo-scenario:execution_engine_tutorials
+    image: ghcr.io/swap-it/demo-scenario/demo-scenario:execution_engine_tests
     hostname: service_server
     expose:
       - 4051
       - 4061
       - 4071
-      - 4080
+      - 4081
       - 4082
       - 4083
       - 4091
@@ -31,7 +32,7 @@ services:
       - "4051:4051"
       - "4061:4061"
       - "4071:4071"
-      - "4080:4080"
+      - "4081:4081"
       - "4082:4082"
       - "4083:4083"
       - "4091:4091"

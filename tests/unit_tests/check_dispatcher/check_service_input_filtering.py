@@ -16,7 +16,7 @@ class CheckServiceStartedInputFiltering(unittest.TestCase):
     #todo implement assignment agent filtering
     async def filter_from_literal_input(self, custom_server_types = None, env = DockerComposeEnvironment(["Device_Registry", "Service_Server"])):
         env.run_docker_compose()
-        await asyncio.sleep(10)
+        await asyncio.sleep(20)
         helper = Helper()
         service_name = "Milling"
         ee_url = "opc.tcp://localhost:4000"
@@ -41,7 +41,7 @@ class CheckServiceStartedInputFiltering(unittest.TestCase):
                                converter.convert_to_opcua_struct(struct_values.assignment_agent, server_instance.custom_data_types, "AssignmentAgent"),
                                converter.convert_to_opcua_struct(struct_values.registry, server_instance.custom_data_types, "DeviceRegistry")]
             #check for a static resource assignment
-            self.assertEqual(cb.callback_helpers.check_for_target_type(server_instance, input_parameter, "ResourceAssignment"), "opc.tcp://service_server:4080")
+            self.assertEqual(cb.callback_helpers.check_for_target_type(server_instance, input_parameter, "ResourceAssignment"), "opc.tcp://service_server:4081")
             #check for capabilities
             self.assertEqual(await AssignAgent(custom_server_types, 4).create_filter_agent_input_arguments([["test_name"], input_parameter], service_name, custom_server_types), ['Milling', ['test_numeric'], ['5']])
             #check for static assignment agent
@@ -50,7 +50,7 @@ class CheckServiceStartedInputFiltering(unittest.TestCase):
             self.assertEqual(cb.callback_helpers.check_for_target_type(server_instance, input_parameter, "DeviceRegistry"), "opc.tcp://device_registry:8000")
             await server.stop()
         env.stop_docker_compose()
-        await asyncio.sleep(10)
+        await asyncio.sleep(20)
         return custom_server_types
 
     def run_test(self, custom_data_types = None, env = None):

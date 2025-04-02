@@ -16,11 +16,10 @@ from values.service_parameters import ServiceParameter
 
 class CheckServiceCall(unittest.TestCase):
     async def check_service_call_from_literal(self, env = DockerComposeEnvironment(["Device_Registry", "Service_Server"])):
-        #env = DockerComposeEnvironment(["Device_Registry", "Service_Server"])
         env.run_docker_compose()
-        time.sleep(10)
+        time.sleep(20)
         service_browse_name = "GetPartsFromWarehouse"
-        server_url = "opc.tcp://localhost:4080"
+        server_url = "opc.tcp://localhost:4081"
         iteration_time = 0.001
         # start client, connect to server and explore the server's namespace
         async with Client(url=server_url) as client:
@@ -57,7 +56,7 @@ class CheckServiceCall(unittest.TestCase):
             #self.assertEqual(service_res.result["AsyncReturn"][0].number_light_segments, param.service_results["AsyncReturn"][0].number_light_segments)
             await client.disconnect()
         env.stop_docker_compose()
-        await asyncio.sleep(10)
+        await asyncio.sleep(20)
 
     def run_check_service_call_from_data_object(self):
         #todo
