@@ -44,7 +44,8 @@ a key and a value, separated by an equals. A potential configuration could be:
 - "number_default_clients"=5
 - "assignment_agent_url"="opc.tcp://localhost:10000"
 - "delay_start"=20
-
+- "priority=1"
+- "prioritizer_url=opc.tcp://localhost:12000"
 Run the main.py file
 -----------------------
 The main.py file can be started from a terminal with at least both mandatory program arguments set:
@@ -185,7 +186,7 @@ over to the Execution Engine object (Table 2). Table 1 displays the :ref:`Dispat
      - | If set, the Execution Engine waits delay_start number
        | of seconds, otherwise, the process execution starts
        | without delay
-   * - docker
+   * - custom_url
      - string
      - | In case that the Execution Engine interacts with OPC UA
        | server inside a docker environment, it might be possible
@@ -195,6 +196,19 @@ over to the Execution Engine object (Table 2). Table 1 displays the :ref:`Dispat
        | server URL received from an Assignment Agent is extracted
        | and added to the string specified in this argument.
        | For example, if the Execution Engine receives an URL
-       | "opc.tcp://swap_server:4840" docker = "opc.tcp://localhost:"
+       | "opc.tcp://swap_server:4840" "custom_url=opc.tcp://localhost:"
        | will adjust the url to "opc.tcp://localhost:4840".
+   * - priority
+     - string
+     - | Priority Value of the executed process. Defaults to 2. The value
+       | is only relevant in case that an prioritizing module is used.
+       | Depending on the provided values, services from different execution
+       | engines are re-ordered inside the queue of resources.
+   * - prioritizer_url
+     - string
+     - | URL of an OPC UA Server
+       | is only relevant in case that an prioritizing module is used.
+       | Depending on the provided values, services from different execution
+       | engines are re-ordered inside the queue of resources. More information
+       | about the prioritization module can be found in section :ref:`Order Prioritization`
 
