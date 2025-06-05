@@ -1,0 +1,378 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dispatcher Configuration &mdash; SWAP-IT Execution Engine 0.9.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=be50ab7b"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Custom Dispatcher Integration" href="CustomDispatcherIntegration.html" />
+    <link rel="prev" title="Dispatcher Callbacks" href="DispatcherCallbacks.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SWAP-IT Execution Engine
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="GettingStarted.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ExecutionEngineLogic.html">Execution Engine Logic</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="Dispatcher.html">Dispatcher Interface</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ComputationalLogic.html">Computational Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DispatcherCallbacks.html">Dispatcher Callbacks</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Dispatcher Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dispatcherconfig-class">DispatcherConfig Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#callback-coupling">Callback Coupling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mandatory-and-optional-callbacks">Mandatory and Optional Callbacks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="CustomDispatcherIntegration.html">Custom Dispatcher Integration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ControlInterface.html">Control Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="swap-it-architecture.html">SWAP-IT Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Contact.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="related_projects.html">Related-Projects</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SWAP-IT Execution Engine</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="Dispatcher.html">Dispatcher Interface</a></li>
+      <li class="breadcrumb-item active">Dispatcher Configuration</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/DispatcherConfiguration.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="dispatcher-configuration">
+<span id="id1"></span><h1>Dispatcher Configuration<a class="headerlink" href="#dispatcher-configuration" title="Link to this heading"></a></h1>
+<p>A Dispatcher needs to be configured for the Execution Engine. As default dispatcher, the <a class="reference internal" href="index.html#id5"><span class="std std-ref">PFDL Scheduler</span></a> is deployed. Section <a class="reference internal" href="CustomDispatcherIntegration.html#custom-dispatcher-integration"><span class="std std-ref">Custom Dispatcher Integration</span></a>
+outlines how the <a class="reference internal" href="index.html#id5"><span class="std std-ref">PFDL Scheduler</span></a> can be replaced with a custom dispatcher. Since the dispatcher is an individual software component,
+which is loosely coupled to the Execution Engine, the Execution Engine provides a script for a dispatcher <a class="reference external" href="https://github.com/FraunhoferIOSB/swap-it-execution-engine/blob/main/dispatcher/dispatcher_configuration.py">Configuration</a>.
+In the <a class="reference external" href="https://github.com/FraunhoferIOSB/swap-it-execution-engine/blob/main/dispatcher/dispatcher_configuration.py">Configuration</a>, a DispatcherConfig class is defined,
+which has to be extended with custom code to integrate custom dispatcher. However the DispatcherConfig class pre-defines on the one hand, a minimum set of class variables, and on the other
+hand, a config_dispatcher() function. All of the class variables presented in Table 1 must be set with the configuration,
+since the Execution Engine accesses these variables during run-time. Besides, the <a class="reference external" href="https://github.com/FraunhoferIOSB/swap-it-execution-engine/blob/main/dispatcher/dispatcher_interface.py">DispatcherInterface</a>
+class defines a bunch of setter-function (Table 2), through which either data_types, variable_values, or functions from the dispatcher are made available to the execution engine.</p>
+<section id="dispatcherconfig-class">
+<h2>DispatcherConfig Class<a class="headerlink" href="#dispatcherconfig-class" title="Link to this heading"></a></h2>
+<p>The DispatcherConfig class can be extended with any kind of variables and functions, however, only the variables and functions presented below are used by the Execution Engine.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dispatcher.dispatcher_interface</span> <span class="kn">import</span> <span class="n">DispatcherInterface</span>
+
+<span class="k">class</span> <span class="nc">DispatcherConfig</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dispatcher_object</span> <span class="o">=</span> <span class="n">DispatcherInterface</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">structs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config_dispatcher</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">config_dispatcher</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1">#create and set the instance that will be configured as dispatcher</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dispatcher_object</span><span class="o">.</span><span class="n">set_dispatcher</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="o">...</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dispatcher_object</span><span class="o">.</span><span class="n">set_process_parameter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dispatcher_object</span><span class="o">.</span><span class="n">set_start_dispatcher</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dispatcher_object</span><span class="o">.</span><span class="n">set_running</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dispatcher_object</span><span class="o">.</span><span class="n">set_fire_event_method</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dispatcher_object</span><span class="o">.</span><span class="n">set_interfaces</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dispatcher_object</span><span class="o">.</span><span class="n">set_register_dispatcher_callbacks</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils align-default" id="id5">
+<caption><span class="caption-text"><strong>Table 1: DispatcherConfig Class Variables</strong></span><a class="headerlink" href="#id5" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 33.3%" />
+<col style="width: 33.3%" />
+<col style="width: 33.3%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Variable</strong></p></th>
+<th class="head"><p><strong>Type</strong></p></th>
+<th class="head"><p><strong>Explanation</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>self.dispatcher_object</p></td>
+<td><p><a class="reference external" href="https://github.com/FraunhoferIOSB/swap-it-execution-engine/blob/main/dispatcher/dispatcher_interface.py">DispatcherInterface</a></p></td>
+<td><p>Dispatcher Object instance for the Execution Engine.</p></td>
+</tr>
+<tr class="row-odd"><td><p>self.structs</p></td>
+<td><p>list[<a class="reference internal" href="GenerateOPCUATypes.html#enginestruct"><span class="std std-ref">EngineStruct</span></a>]</p></td>
+<td><div class="line-block">
+<div class="line">List with custom variable types in the <a class="reference internal" href="GenerateOPCUATypes.html#enginestruct"><span class="std std-ref">EngineStruct</span></a></div>
+<div class="line">format. The Execution Engine generates OPC UA</div>
+<div class="line"><a class="reference internal" href="GenerateOPCUATypes.html#data-types"><span class="std std-ref">Data Types</span></a> for each type provided in this type list.</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>self.config_dispatcher()</p></td>
+<td><p>function</p></td>
+<td><p>Configurate the dispatcher for the Execution Engine</p></td>
+</tr>
+</tbody>
+</table>
+<span id="dispatcherinterface-setter-functions"></span><table class="docutils align-default" id="id6">
+<caption><span class="caption-text"><strong>Table 2: DispatcherInterface Setter functions</strong></span><a class="headerlink" href="#id6" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 33.3%" />
+<col style="width: 66.7%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Function</strong></p></th>
+<th class="head"><p><strong>Explanation</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><div class="line-block">
+<div class="line">set_dispatcher(</div>
+<div class="line-block">
+<div class="line"><em>dispatcher: custom_object</em></div>
+</div>
+<div class="line">)</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">Hands over the custom dispatcher object to the Execution Engine.</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><div class="line-block">
+<div class="line">set_process_parameter(</div>
+<div class="line-block">
+<div class="line"><em>structs: :ref:`EngineStruct`</em></div>
+</div>
+<div class="line">)</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">Hands over the DispatcherConfig struct variable to the</div>
+<div class="line">Execution Engine.</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><div class="line-block">
+<div class="line">set_fire_event_method(</div>
+<div class="line-block">
+<div class="line"><em>fire_event_method: function</em></div>
+</div>
+<div class="line">)</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">Hands over a function that is executed whenever the Execution</div>
+<div class="line">Engine completes a Service execution. This function</div>
+<div class="line">will be registered as <a class="reference internal" href="DispatcherCallbacks.html#service-finished-event-callback"><span class="std std-ref">Service Finished Event Callback</span></a>.</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><div class="line-block">
+<div class="line">set_register_dispatcher_callbacks(</div>
+<div class="line-block">
+<div class="line"><em>func: function</em></div>
+</div>
+<div class="line">)</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">Custom function that registers the <a class="reference internal" href="DispatcherCallbacks.html#dispatcher-callbacks"><span class="std std-ref">Dispatcher Callbacks</span></a> of the</div>
+<div class="line">Execution Engine in the custom dispatcher.</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><div class="line-block">
+<div class="line">set_start_dispatcher(</div>
+<div class="line-block">
+<div class="line"><em>func: function</em></div>
+</div>
+<div class="line">)</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">Registers a function inside the Execution Engine that</div>
+<div class="line">starts the custom dispatcher program.</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><div class="line-block">
+<div class="line">set_running(</div>
+<div class="line-block">
+<div class="line"><em>func: function</em></div>
+</div>
+<div class="line">)</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">Registers a function inside the Execution Engine that returns</div>
+<div class="line">a boolean value from the dispatcher that indicates whether the</div>
+<div class="line">dispatcher program is still running or not.</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="callback-coupling">
+<span id="id4"></span><h2>Callback Coupling<a class="headerlink" href="#callback-coupling" title="Link to this heading"></a></h2>
+<p>Besides registering functions, the DispatcherInterface provides <a class="reference internal" href="DispatcherCallbacks.html#dispatcher-callbacks"><span class="std std-ref">Dispatcher Callbacks</span></a> that have to be executed from the dispatcher.
+Here, two problems might occur. First, the Execution Engine’s <a class="reference internal" href="ComputationalLogic.html#computational-logic"><span class="std std-ref">Computational Logic</span></a> includes threading and asynchronous function execution,
+so that it has to be ensured, that the Execution Engine provides a synchronous interfaces for its callbacks. Second, the callbacks from a custom dispatcher,
+which execute the Execution Engine callbacks, might not provide exactly the input that is required by the Execution Engine’s callbacks. To solve this (Figure 1), the
+Execution Engine provide a set of synchronous callbacks, that wrap the asynchronous callbacks and thus, make them executable for synchronous dispatcher callbacks.
+On the side of the custom dispatcher, an applicator might define optional Dispatcher Execution Engine Interfaces. These interfaces are only required in case that the
+Dispatcher Callbacks do not provide the required input format for the Execution Engine (for example, an individual format for data types). Here, the Dispatcher
+Execution Engine Interface can transform the internal Dispatcher formats to the required Execution Engine format, and besides, ensure, that the required input for the
+Execution Engine Callback Wrapper is provided. Further information about the callback coupling can be found in the <a class="reference internal" href="CustomDispatcherIntegration.html#custom-dispatcher-integration"><span class="std std-ref">Custom Dispatcher Integration</span></a>’s section <a class="reference internal" href="CustomDispatcherIntegration.html#callbacks"><span class="std std-ref">Callbacks</span></a>.</p>
+<figure class="align-default" id="id7">
+<a class="reference internal image-reference" href="_images/Coupling.png"><img alt="Overview" src="_images/Coupling.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><strong>Figure 1:</strong> Dispatcher Execution Engine Callback Coupling</span><a class="headerlink" href="#id7" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="mandatory-and-optional-callbacks">
+<h2>Mandatory and Optional Callbacks<a class="headerlink" href="#mandatory-and-optional-callbacks" title="Link to this heading"></a></h2>
+<p>As stated before, the Execution Engine only requires a subset of the provided callback functions to be functional. The <a class="reference internal" href="DispatcherCallbacks.html#service-started-callback"><span class="std std-ref">Service Started Callback</span></a> and <a class="reference internal" href="DispatcherCallbacks.html#service-finished-callback"><span class="std std-ref">Service Finished Callback</span></a>
+are mandatory since they control the interaction between the Execution Engine and Devices that offer services. Beside, the <a class="reference internal" href="DispatcherCallbacks.html#service-finished-event-callback"><span class="std std-ref">Service Finished Event Callback</span></a> communicates the completion of a
+service back to the Dispatcher. The other three callbacks are optional. Depending on whether <a class="reference internal" href="index.html#tasks-and-services"><span class="std std-ref">Tasks and Services</span></a> are utilized or only Service, both, the <a class="reference internal" href="DispatcherCallbacks.html#task-started-callback"><span class="std std-ref">Task Started Callback</span></a> and the <a class="reference internal" href="DispatcherCallbacks.html#task-finished-callback"><span class="std std-ref">Task Finished Callback</span></a>
+become mandatory. Independent of Tasks, <a class="reference internal" href="DispatcherCallbacks.html#data-callback"><span class="std std-ref">Data Callback</span></a> can be realized, so that depending on the Dispatcher Functionality, four combinations of callback functions are possible for an Execution Engine:</p>
+<table class="docutils align-default" id="id8">
+<caption><span class="caption-text"><strong>Table 3: Dispatcher Callback Configurations</strong></span><a class="headerlink" href="#id8" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 4.5%" />
+<col style="width: 45.5%" />
+<col style="width: 4.5%" />
+<col style="width: 45.5%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><div class="line-block">
+<div class="line"><strong>1</strong></div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line"><a class="reference internal" href="DispatcherCallbacks.html#service-started-callback"><span class="std std-ref">Service Started Callback</span></a></div>
+<div class="line"><a class="reference internal" href="DispatcherCallbacks.html#service-finished-callback"><span class="std std-ref">Service Finished Callback</span></a></div>
+<div class="line"><a class="reference internal" href="DispatcherCallbacks.html#service-finished-event-callback"><span class="std std-ref">Service Finished Event Callback</span></a></div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line"><strong>2</strong></div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line"><a class="reference internal" href="DispatcherCallbacks.html#service-started-callback"><span class="std std-ref">Service Started Callback</span></a></div>
+<div class="line"><a class="reference internal" href="DispatcherCallbacks.html#service-finished-callback"><span class="std std-ref">Service Finished Callback</span></a></div>
+<div class="line"><a class="reference internal" href="DispatcherCallbacks.html#service-finished-event-callback"><span class="std std-ref">Service Finished Event Callback</span></a></div>
+<div class="line"><a class="reference internal" href="DispatcherCallbacks.html#data-callback"><span class="std std-ref">Data Callback</span></a></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><div class="line-block">
+<div class="line"><strong>3</strong></div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line"><a class="reference internal" href="DispatcherCallbacks.html#service-started-callback"><span class="std std-ref">Service Started Callback</span></a></div>
+<div class="line"><a class="reference internal" href="DispatcherCallbacks.html#service-finished-callback"><span class="std std-ref">Service Finished Callback</span></a></div>
+<div class="line"><a class="reference internal" href="DispatcherCallbacks.html#service-finished-event-callback"><span class="std std-ref">Service Finished Event Callback</span></a></div>
+<div class="line"><a class="reference internal" href="DispatcherCallbacks.html#task-started-callback"><span class="std std-ref">Task Started Callback</span></a></div>
+<div class="line"><a class="reference internal" href="DispatcherCallbacks.html#task-finished-callback"><span class="std std-ref">Task Finished Callback</span></a></div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line"><strong>4</strong></div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line"><a class="reference internal" href="DispatcherCallbacks.html#service-started-callback"><span class="std std-ref">Service Started Callback</span></a></div>
+<div class="line"><a class="reference internal" href="DispatcherCallbacks.html#service-finished-callback"><span class="std std-ref">Service Finished Callback</span></a></div>
+<div class="line"><a class="reference internal" href="DispatcherCallbacks.html#service-finished-event-callback"><span class="std std-ref">Service Finished Event Callback</span></a></div>
+<div class="line"><a class="reference internal" href="DispatcherCallbacks.html#task-started-callback"><span class="std std-ref">Task Started Callback</span></a></div>
+<div class="line"><a class="reference internal" href="DispatcherCallbacks.html#task-finished-callback"><span class="std std-ref">Task Finished Callback</span></a></div>
+<div class="line"><a class="reference internal" href="DispatcherCallbacks.html#data-callback"><span class="std std-ref">Data Callback</span></a></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="DispatcherCallbacks.html" class="btn btn-neutral float-left" title="Dispatcher Callbacks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="CustomDispatcherIntegration.html" class="btn btn-neutral float-right" title="Custom Dispatcher Integration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Fraunhofer IOSB Author (Florian Düwel).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,235 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Types &mdash; SWAP-IT Execution Engine 0.9.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=be50ab7b"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Service Dispatcher Interaction" href="ServiceInterface.html" />
+    <link rel="prev" title="Execution Engine Data Object" href="DataObject.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SWAP-IT Execution Engine
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="GettingStarted.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="ExecutionEngineLogic.html">Execution Engine Logic</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="DataObject.html">Execution Engine Data Object</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Data Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#internal-execution-engine-types">Internal Execution Engine Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data-converter">Data Converter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#custom-opc-ua-types">Custom OPC UA Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ServiceInterface.html">Service Dispatcher Interaction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Dispatcher.html">Dispatcher Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ControlInterface.html">Control Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="swap-it-architecture.html">SWAP-IT Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Contact.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="related_projects.html">Related-Projects</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SWAP-IT Execution Engine</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="ExecutionEngineLogic.html">Execution Engine Logic</a></li>
+      <li class="breadcrumb-item active">Data Types</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/GenerateOPCUATypes.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="data-types">
+<span id="id1"></span><h1>Data Types<a class="headerlink" href="#data-types" title="Link to this heading"></a></h1>
+<p>The Execution Engine features two kind of data type definitions. First, the Execution Engine has an internal data format, which is used
+to exchange parameter between the Execution Engine and Schedulers, which are attached trough the Dispatcher. Second, the data type of each parameter
+that is defined as part of the process description, is translated into a corresponding OPC UA data type. These OPC UA Types are required to add variables to the <a class="reference internal" href="DataObject.html#data-object"><span class="std std-ref">Execution Engine Data Object</span></a>,
+to generate the input for the Service Methods and to extract the received service results from the resource server.</p>
+<section id="internal-execution-engine-types">
+<span id="id2"></span><h2>Internal Execution Engine Types<a class="headerlink" href="#internal-execution-engine-types" title="Link to this heading"></a></h2>
+<p>The internal Execution Engine types are mainly required for the interface between a custom scheduler and the Dispatcher.
+Here these internal data types enable a standardized format for the exchange of parameter. Since the Execution Engine generates custom OPC UA
+data types from the custom type definitions, each type is declared as a custom structure and it is not possible to directly declare single variables.
+Here the definition of a simple string variable cannot be accomplished with <em>string_variable = “TestString”</em>.
+Instead, the <em>string_variable</em> must be declared as a field of a structure, e.g.:</p>
+<p><em>StringStructure{string_variable = “TestString”}</em></p>
+<p>The Execution Engine provides individual Python objects to define structures in the Execution Engine format:</p>
+<span id="enginestruct"></span><table class="docutils align-default" id="id5">
+<caption><span class="caption-text"><strong>EngineStruct</strong></span><a class="headerlink" href="#id5" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 50.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>EngineStruct</p></th>
+<th class="head"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Name</p></td>
+<td><p>Name of the Structure</p></td>
+</tr>
+<tr class="row-odd"><td><p>DataType</p></td>
+<td><p>Data Type of the Structure</p></td>
+</tr>
+<tr class="row-even"><td><p>Attributes</p></td>
+<td><div class="line-block">
+<div class="line">Fields of the Structure. Each Attribute can either be an individual <a class="reference internal" href="#enginestruct"><span class="std std-ref">EngineStruct</span></a>,</div>
+<div class="line"><a class="reference internal" href="#enginearray"><span class="std std-ref">EngineArray</span></a> or a <a class="reference internal" href="#simpletype"><span class="std std-ref">SimpleTypes</span></a> such as a String, a Integer, or a Boolean.</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<span id="enginearray"></span><table class="docutils align-default" id="id6">
+<caption><span class="caption-text"><strong>EngineArray</strong></span><a class="headerlink" href="#id6" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 50.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>EngineArray</p></th>
+<th class="head"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Name</p></td>
+<td><p>Name of the array</p></td>
+</tr>
+<tr class="row-odd"><td><p>DataType</p></td>
+<td><p>Data Type of the Array elements. Data Types can either be <a class="reference internal" href="#enginestruct"><span class="std std-ref">EngineStruct</span></a> or <a class="reference internal" href="#simpletype"><span class="std std-ref">SimpleTypes</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p>Length</p></td>
+<td><div class="line-block">
+<div class="line">Number of Array elements. In case of arrays with an unspecific length,</div>
+<div class="line">the value has to be set to -1</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Values</p></td>
+<td><p>Elements of the array, in case that it is not empty</p></td>
+</tr>
+</tbody>
+</table>
+<p>Simple types are ordinary data types. However, since these data types are converted into OPC UA Types, the supported simple types are a subset of the
+<a class="reference external" href="https://reference.opcfoundation.org/Core/Part6/v104/docs/5.1.2">Build-in OPC UA Data Types</a>.
+The list with currently supported simple types is shown in the table below. In this context, the <em>Type</em> indicates the Data Type
+and the Key the name that is required as EngineStruct data type, to identify the corresponding type.</p>
+<span id="simpletype"></span><table class="docutils align-default" id="id7">
+<caption><span class="caption-text"><strong>SimpleTypes</strong></span><a class="headerlink" href="#id7" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 50.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Type</p></th>
+<th class="head"><p>Key</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>String</p></td>
+<td><p>string</p></td>
+</tr>
+<tr class="row-odd"><td><p>Boolean</p></td>
+<td><p>boolean</p></td>
+</tr>
+<tr class="row-even"><td><p>Double</p></td>
+<td><p>number</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="data-converter">
+<span id="id3"></span><h2>Data Converter<a class="headerlink" href="#data-converter" title="Link to this heading"></a></h2>
+<p>The Execution Engine has two build-in data converter. The first takes instances of EngineStructs and converts
+them to OPC UA variables with custom structure data types. The second takes OPC UA variables and generates EngineStructs out of it.</p>
+</section>
+<section id="custom-opc-ua-types">
+<span id="id4"></span><h2>Custom OPC UA Types<a class="headerlink" href="#custom-opc-ua-types" title="Link to this heading"></a></h2>
+<p>Lastly, when an Execution Engine is started, it must generate OPC UA Data Types out of the parameter type definitions of a process description.
+Here, a list with all custom type definitions for a process must be handed over from the process description to the Execution Engine at the
+beginning of the process execution. All custom data types must be provided in the <a class="reference internal" href="#enginestruct"><span class="std std-ref">EngineStruct</span></a> format.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="DataObject.html" class="btn btn-neutral float-left" title="Execution Engine Data Object" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ServiceInterface.html" class="btn btn-neutral float-right" title="Service Dispatcher Interaction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Fraunhofer IOSB Author (Florian Düwel).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,175 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Execution Engine Data Object &mdash; SWAP-IT Execution Engine 0.9.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=be50ab7b"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Data Types" href="GenerateOPCUATypes.html" />
+    <link rel="prev" title="Execution Engine Logic" href="ExecutionEngineLogic.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SWAP-IT Execution Engine
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="GettingStarted.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="ExecutionEngineLogic.html">Execution Engine Logic</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Execution Engine Data Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GenerateOPCUATypes.html">Data Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ServiceInterface.html">Service Dispatcher Interaction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Dispatcher.html">Dispatcher Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ControlInterface.html">Control Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="swap-it-architecture.html">SWAP-IT Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Contact.html">Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="related_projects.html">Related-Projects</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SWAP-IT Execution Engine</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="ExecutionEngineLogic.html">Execution Engine Logic</a></li>
+      <li class="breadcrumb-item active">Execution Engine Data Object</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/DataObject.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="execution-engine-data-object">
+<span id="data-object"></span><h1>Execution Engine Data Object<a class="headerlink" href="#execution-engine-data-object" title="Link to this heading"></a></h1>
+<p>The Data Object manages all tasks and process parameters, which are specified within a process description.
+Here, the dispatcher uses the <a class="reference internal" href="DispatcherCallbacks.html#dispatcher-callbacks"><span class="std std-ref">Dispatcher Callbacks</span></a> to either add Tasks and Variables, or to request Parameter (Figure 1).
+The added variables are then read from the Data Object to parameterize services, according to the process description.
+Besides values from the Data Object, Services that are executed on the Shop Floor can be parameterizes with literal values.
+These literal values are directly declared for a Service within the process description. In addition, Service results from the shop floor
+can be utilized to either add new variables or to update variable values within the Data Object.</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="_images/DataObjectinteraction.png"><img alt="Overview" src="_images/DataObjectinteraction.png" style="width: 85%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><strong>Figure 1:</strong> Interaction between the Data Object, the Dispatcher and Resources on the Shop Floor</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>At the lowest level, each Task within the Data Object is represented as an individual OPC UA Object. The corresponding
+ObjectType is illustrated in Figure 2. Each Object has two variables attached by default: the TaskName provides the identifier of the Task
+and the StateVariable indicates the current execution status of the corresponding task. In addition, each TaskObject can be extended with an
+arbitrary number of variables that are either added to the TaskObject when it is instantiated, or as a result of a Service or Task
+execution.</p>
+<figure class="align-default" id="id2">
+<span id="taskobject"></span><a class="reference internal image-reference" href="_images/TaskObject.png"><img alt="Overview" src="_images/TaskObject.png" style="width: 25%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><strong>Figure 2:</strong> TaskObjectType</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Figure 3 depicts the different stages of the Data Object on a small PFDL example. The process description features three different types of
+variables, the BooleanValue, the NumericValue and the StringValue. In addition, the productionTask of the process features two Tasks, which are executed in parallel:
+the loopTask and the simpleTask.</p>
+<p>When the Execution Engine starts the process execution, the Data Object is created, featuring only a single TaskObject for the
+productionTask. After the Dispatcher schedules the loopTask and the simpleTask, the productionTaskObject within the Data Object is extended with two
+corresponding TaskObjects. Since both Tasks feature variables (variable_1 for the loopTask and variable_2, variable_3 for the simpleTask).
+the TaskObject is extended with an OPC UA variables that have DataTypes, corresponding to the types of the PFDL process variables.</p>
+<p>The loopTask receives variable_1 as input from the productionTask and attaches it to the loopTaskObject. Variable_1 is specified as input and output for the execution of the loop service (Line 20-25). Here,
+the value of variable_1 ist first read from the DataObject
+and then used to execute the service. As soon as the Service execution completed, the Data Object updates the value of variable_1. Since the loopTask features a Loop Condition based on variable_1 (Line 20)
+the Dispatcher needs access to the variable’s value to evaluate the condition. Here, the Dispatcher utilizes the <a class="reference internal" href="DispatcherCallbacks.html#data-callback"><span class="std std-ref">Data Callback</span></a> function to get the current value
+of variable_1. In case that the condition is met, the Dispatcher continues scheduling the loop_service. As soon as the condition is not met, the loop is completed, and the Dispatcher
+can continue the execution of subsequent Tasks.</p>
+<p>The simpleTask receives variable_2 and variable_3 as input from the productionTask. Here, the variables are attached to the
+simpleTaskObject and used as input and output for the simple_service (Line 33-34). In addition, the simple_service receives a
+literal input that does not appear in the Data Object (Line 35-37). The values of variable_2 and variable_3 are updated after the service execution completes.
+Since both variables are defined as Task output, they are transmitted from the simpleTask to the productionTask, as soon as the execution
+of the simpleTask completes.</p>
+<p>Finally, after the Parallel condition with the loopTask and the simpleTask is completed, the productionTask receives variable_2 and variable_3 as
+output and attaches them to its own TaskObject within the Data Object, so that it can be used from the productionTask to either specify input values to services and tasks,
+or to evaluate conditions. Furthermore, the loopTaskObject and the simpleTaskObject are removed from the Data Object, so that
+only Tasks that are currently executed are represented within the Data Object.</p>
+<figure class="align-default" id="id3">
+<a class="reference internal image-reference" href="_images/DataObject.png"><img alt="Overview" src="_images/DataObject.png" style="width: 720px;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><strong>Figure 3:</strong> Visualization of the Data Object for an example PFDL process</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ExecutionEngineLogic.html" class="btn btn-neutral float-left" title="Execution Engine Logic" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="GenerateOPCUATypes.html" class="btn btn-neutral float-right" title="Data Types" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Fraunhofer IOSB Author (Florian Düwel).</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script> 
+
+</body>
+</html>
